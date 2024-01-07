@@ -1,3 +1,9 @@
+import Claw from "@/views/Claw.vue";
+import Draw from "@/views/Draw.vue";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
+import Shop from "@/views/Shop.vue";
 import {
   mdiAccount,
   mdiHome,
@@ -20,7 +26,7 @@ const routes = [
     meta: { auth: true },
     children: [
       {
-        path: "/home",
+        path: "home",
         name: "Home",
         meta: {
           title: "首頁",
@@ -28,7 +34,7 @@ const routes = [
           show: true,
           icon: mdiHome,
         },
-        component: () => import("@/views/Home.vue"),
+        component: Home,
       },
       {
         path: "manage",
@@ -131,19 +137,19 @@ const routes = [
           show: true,
           icon: mdiRobotIndustrial,
         }, // TODO: icon
-        component: () => import("@/views/Claw.vue"),
+        component: Claw,
       },
       {
         path: "draw",
         name: "Draw",
         meta: { title: "戳戳樂", auth: true, show: true, icon: "" }, // TODO: icon
-        component: () => import("@/views/Draw.vue"),
+        component: Draw,
       },
       {
         path: "shop",
         name: "Shop",
         meta: { title: "商店", auth: true, show: true, icon: mdiStore },
-        component: () => import("@/views/Shop.vue"),
+        component: Shop,
       },
     ],
   },
@@ -151,13 +157,13 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: { title: "登入" },
-    component: () => import("@/views/Login.vue"),
+    component: Login,
   },
   {
     path: "/register",
     name: "Register",
     meta: { title: "註冊" },
-    component: () => import("@/views/Register.vue"),
+    component: Register,
   },
   {
     path: "/:pathMatch(.*)",
