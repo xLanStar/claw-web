@@ -1,11 +1,12 @@
 <script setup>
+import { mdiAlert, mdiCheck, mdiInformation } from "@mdi/js";
 import { alertState } from "../store/alert.mjs";
 
 const ICON_MAP = {
-  info: "info",
-  success: "check",
-  warning: "warning",
-  error: "error",
+  info: mdiInformation,
+  success: mdiCheck,
+  warning: mdiAlert,
+  error: mdiAlert,
 };
 </script>
 

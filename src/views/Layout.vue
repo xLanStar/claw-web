@@ -21,15 +21,17 @@ const flatRoutes = (list, originList = [list]) => {
       <router-view />
     </v-container>
   </v-main>
-  <v-bottom-navigation>
+  <v-bottom-navigation mode="shift">
     <template v-for="{ name, meta } in flatRoutes(router.options.routes)">
       <v-btn
-        v-if="meta.show && (meta.role ? userState?.uRole >= meta.role : true)"
+        v-if="
+          meta?.show && (meta?.role ? userState?.uRole >= meta?.role : true)
+        "
         :value="name"
         :to="{ name }"
       >
-        <v-icon :icon="meta.icon" />
-        <span>{{ meta.title }}</span>
+        <v-icon :icon="meta?.icon" />
+        <span>{{ meta?.title }}</span>
       </v-btn>
     </template>
   </v-bottom-navigation>

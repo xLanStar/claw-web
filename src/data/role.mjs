@@ -6,6 +6,8 @@ export const Role = {
   Root: 11,
 };
 
+export const Roles = Object.values(Role);
+
 export const RoleName = {
   [Role.Guest]: "訪客",
   [Role.Member]: "會員",
@@ -19,5 +21,5 @@ export const RoleColor = {
   [Role.Member]: "blue",
   [Role.VIP]: "cyan",
   [Role.Admin]: "red",
-  [Role.Root]: "purple",
+  [Role.Root]: "orange",
 };

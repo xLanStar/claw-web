@@ -12,7 +12,7 @@ console.log();
 
 <template>
   <v-card>
-    <v-tabs v-model="tab" align-tabs="center" centered stacked>
+    <v-tabs v-model="tab" align-tabs="center" centered stacked show-arrows>
       <template v-for="{ name, meta } in route.matched[1].children" :key="name">
         <v-tab
           v-if="!meta.role || userState.uRole >= meta.role"

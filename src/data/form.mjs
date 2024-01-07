@@ -1,3 +1,33 @@
+export const InputType = {
+  Email: "email",
+  Password: "password",
+  Text: "text",
+  Number: "number",
+  Phone: "tel",
+  Select: "select",
+  Boolean: "boolean",
+  Range: "range",
+  AutoComplete: "autocomplete",
+};
+
+export const InputComponentMap = {
+  [InputType.Email]: "v-text-field",
+  [InputType.Password]: "v-text-field",
+  [InputType.Text]: "v-text-field",
+  [InputType.Number]: "v-text-field",
+  [InputType.Phone]: "v-text-field",
+  [InputType.Select]: "v-select",
+  [InputType.Boolean]: "v-checkbox",
+  [InputType.Range]: "v-slider",
+  [InputType.AutoComplete]: "v-autocomplete",
+};
+
+export const isNumberInputType = (inputType) =>
+  inputType === InputType.Number || inputType === InputType.Range;
+
+export const parseInputData = (inputType, inputData) =>
+  isNumberInputType(inputType) ? Number(inputData) : inputData;
+
 export const useRule = {
   required: (name) => (value) => value ? true : `${name} 為必填欄位`,
   minLength: (name, length) => (value) =>

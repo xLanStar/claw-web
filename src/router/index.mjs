@@ -1,3 +1,12 @@
+import {
+  mdiAccount,
+  mdiHome,
+  mdiListBox,
+  mdiMapMarker,
+  mdiNotebook,
+  mdiRobotIndustrial,
+  mdiStore,
+} from "@mdi/js";
 import { createRouter, createWebHistory } from "vue-router";
 import { Role } from "../data/role.mjs";
 import { userState } from "../store/auth.mjs";
@@ -7,7 +16,7 @@ const routes = [
     path: "/",
     name: "Layout",
     redirect: { name: "Home" },
-    component: () => import("../views/Layout.vue"),
+    component: () => import("@/views/Layout.vue"),
     meta: { auth: true },
     children: [
       {
@@ -17,9 +26,9 @@ const routes = [
           title: "首頁",
           auth: true,
           show: true,
-          icon: "home",
+          icon: mdiHome,
         },
-        component: () => import("../views/Home.vue"),
+        component: () => import("@/views/Home.vue"),
       },
       {
         path: "manage",
@@ -30,70 +39,111 @@ const routes = [
           auth: true,
           role: Role.Admin,
           show: true,
-          icon: "manage",
+          icon: mdiNotebook,
         },
-        component: () => import("../views/Manage.vue"),
+        component: () => import("@/views/Manage.vue"),
         children: [
           {
             path: "site",
             name: "ManageSite",
-            meta: { title: "場地管理", auth: true, icon: "place" },
-            component: () => import("../views/ManageSite.vue"),
+            redirect: { name: "ManageSiteList" },
+            meta: { title: "場地管理", auth: true, icon: mdiMapMarker },
+            children: [
+              {
+                path: "",
+                name: "ManageSiteList",
+                component: () => import("@/views/ManageSiteList.vue"),
+                meta: {
+                  title: "場地列表",
+                },
+              },
+              // {
+              //   path: ":sId",
+              //   name: "ManagSiteInfo",
+              //   component: () => import("@/views/ManagSiteInfo.vue"),
+              //   meta: {
+              //     title: "場地詳細資訊",
+              //   },
+              // },
+            ],
           },
           {
             path: "machine",
             name: "ManageMachine",
-            meta: { title: "機台管理", auth: true },
-            component: () => import("../views/ManageMachine.vue"),
+            meta: { title: "機台管理", auth: true, icon: mdiListBox },
+            component: () => import("@/views/ManageMachine.vue"),
           },
           {
             path: "shop",
             name: "ManageShop",
-            meta: { title: "商店管理", auth: true, icon: "shop" },
-            component: () => import("../views/ManageShop.vue"),
+            meta: { title: "商店管理", auth: true, icon: mdiStore },
+            component: () => import("@/views/ManageShop.vue"),
           },
           {
             path: "draw",
             name: "ManageDraw",
             meta: { title: "戳戳樂管理", auth: true },
-            component: () => import("../views/ManageDraw.vue"),
+            component: () => import("@/views/ManageDraw.vue"),
           },
           {
             path: "claw",
             name: "ManageClaw",
-            meta: { title: "夾娃娃管理", auth: true },
-            component: () => import("../views/ManageClaw.vue"),
+            meta: { title: "夾娃娃管理", auth: true, icon: mdiRobotIndustrial },
+            component: () => import("@/views/ManageClaw.vue"),
           },
           {
-            path: "user/:uId?",
+            path: "user",
             name: "ManageUser",
+            redirect: { name: "ManageUserList" },
             meta: {
               title: "會員管理",
               auth: true,
               role: Role.Root,
-              icon: "person",
+              icon: mdiAccount,
             },
-            component: () => import("../views/ManageUser.vue"),
+            children: [
+              {
+                path: "",
+                name: "ManageUserList",
+                component: () => import("@/views/ManageUserList.vue"),
+                meta: {
+                  title: "會員列表",
+                },
+              },
+              {
+                path: ":uId",
+                name: "ManageUserInfo",
+                component: () => import("@/views/ManageUserInfo.vue"),
+                meta: {
+                  title: "會員詳細資訊",
+                },
+              },
+            ],
           },
         ],
       },
       {
         path: "claw",
         name: "Claw",
-        meta: { title: "夾娃娃機", auth: true, show: true, icon: "" }, // TODO: icon
-        component: () => import("../views/Claw.vue"),
+        meta: {
+          title: "夾娃娃機",
+          auth: true,
+          show: true,
+          icon: mdiRobotIndustrial,
+        }, // TODO: icon
+        component: () => import("@/views/Claw.vue"),
       },
       {
         path: "draw",
         name: "Draw",
         meta: { title: "戳戳樂", auth: true, show: true, icon: "" }, // TODO: icon
-        component: () => import("../views/Draw.vue"),
+        component: () => import("@/views/Draw.vue"),
       },
       {
         path: "shop",
         name: "Shop",
-        meta: { title: "商店", auth: true, show: true, icon: "store" },
-        component: () => import("../views/Shop.vue"),
+        meta: { title: "商店", auth: true, show: true, icon: mdiStore },
+        component: () => import("@/views/Shop.vue"),
       },
     ],
   },
@@ -101,13 +151,13 @@ const routes = [
     path: "/login",
     name: "Login",
     meta: { title: "登入" },
-    component: () => import("../views/Login.vue"),
+    component: () => import("@/views/Login.vue"),
   },
   {
     path: "/register",
     name: "Register",
     meta: { title: "註冊" },
-    component: () => import("../views/Register.vue"),
+    component: () => import("@/views/Register.vue"),
   },
   {
     path: "/:pathMatch(.*)",
@@ -138,8 +188,8 @@ router.beforeEach((to) => {
 
   // 更新頁面標題
   window.document.title = to.meta.title
-    ? to.meta.title + " - 遊子物語"
-    : "遊子物語";
+    ? to.meta.title + " - 遊子選物販賣"
+    : "遊子選物販賣";
 });
 
 export default router;

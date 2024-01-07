@@ -8,6 +8,6 @@ import { loadingState } from "../store/index.mjs";
       color="primary"
       indeterminate
       size="64"
-    ></v-progress-circular>
+    />
   </v-overlay>
 </template>
