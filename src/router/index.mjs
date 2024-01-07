@@ -125,7 +125,7 @@ router.beforeEach((to) => {
   console.log("[路由] ->", to.name, "頁面");
 
   // 權限不足，自動跳轉到上一頁
-  if (to.meta.role && userState.value.role < to.meta.role) return -1;
+  if (to.meta.role && userState.value?.role < to.meta.role) return -1;
 
   // 必須要登入的介面，自動跳轉到登入頁面
   if (to.meta.auth && !userState.value) return { name: "Login" };
