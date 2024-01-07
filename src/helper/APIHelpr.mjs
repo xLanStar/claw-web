@@ -5,7 +5,7 @@ import { loadingState } from "../store/index.mjs";
 
 const APIHelper = axios.create({
   baseURL: API_URL,
-  timeout: 300,
+  timeout: 3000,
 });
 
 let requestCount = 0;
