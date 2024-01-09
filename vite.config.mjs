@@ -5,11 +5,7 @@ export default defineConfig({
   optimizeDeps: {},
   plugins: [vue()],
   css: {
-    preprocessorOptions: {
-      scss: {
-        // additionalData: `@import "src/assets/scss/global";`,
-      },
-    },
+    transformer: "lightningcss",
   },
   build: {
     target: "esnext",
@@ -18,5 +14,6 @@ export default defineConfig({
     alias: {
       "@": "/src",
     },
+    extensions: [],
   },
 });
