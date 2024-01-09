@@ -12,19 +12,17 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "devDependencies": {
-    "@mdi/font": "^7.4.47",
-    "@mdi/js": "^7.4.47",
-    "@vitejs/plugin-vue": "5",
-    "axios": "^1.6.4",
-    "material-design-icons-iconfont": "^6.7.0",
-    "sass": "^1.69.7",
-    "vue": "^3.4.5",
-    "vue-router": "4"
-  },
   "dependencies": {
-    "ant-design-vue": "^4.0.8",
-    "uuid": "^9.0.1",
-    "vuetify": "^3.4.9"
+    "@mdi/font": "7",
+    "@mdi/js": "7",
+    "@vitejs/plugin-vue": "5",
+    "axios": "1",
+    "lightningcss": "1",
+    "material-design-icons-iconfont": "6",
+    "sass": "1",
+    "vite": "5",
+    "vue": "3",
+    "vue-router": "4",
+    "vuetify": "3"
   }
 }
