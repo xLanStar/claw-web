@@ -63,14 +63,14 @@ const routes = [
                   title: "場地列表",
                 },
               },
-              // {
-              //   path: ":sId",
-              //   name: "ManagSiteInfo",
-              //   component: () => import("@/views/ManagSiteInfo.vue"),
-              //   meta: {
-              //     title: "場地詳細資訊",
-              //   },
-              // },
+              {
+                path: ":sId",
+                name: "ManageSiteInfo",
+                component: () => import("@/views/ManageSiteInfo.vue"),
+                meta: {
+                  title: "場地詳細資訊",
+                },
+              },
             ],
           },
           {

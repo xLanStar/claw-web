@@ -3,7 +3,7 @@ import App from "@/App.vue";
 import { createApp } from "vue";
 
 // Vuetify
-import vuetify from "@/plugins/vuetify";
+import vuetify from "@/plugins/vuetify.mjs";
 
 // Vue Router
 import router from "@/router/index.mjs";

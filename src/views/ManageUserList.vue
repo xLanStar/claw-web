@@ -14,63 +14,69 @@ onMounted(
 </script>
 
 <template>
-  <v-data-iterator :items="users" :items-per-page="12" :search="search">
-    <template v-slot:header>
-      <v-toolbar class="px-2">
-        <v-toolbar-title>
-          <v-text-field
-            v-model="search"
-            density="comfortable"
-            hide-details
-            placeholder="搜尋"
-            :prepend-inner-icon="mdiMagnify"
-            style="max-width: 300px"
-            variant="solo"
-          />
-        </v-toolbar-title>
-      </v-toolbar>
-    </template>
-
-    <template v-slot:default="{ items }">
-      <v-container class="pa-0" fluid>
-        <v-row dense>
-          <v-col
-            v-for="(item, i) in items"
-            :key="i"
-            cols="12"
-            md="6"
-            lg="4"
-            xl="3"
-          >
-            <v-card
-              link
-              :to="{ name: 'ManageUserInfo', params: { uId: item.raw.uId } }"
+  <v-card>
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        density="comfortable"
+        hide-details
+        placeholder="搜尋"
+        :prepend-inner-icon="mdiMagnify"
+        style="max-width: 300px"
+        variant="solo"
+        flat
+      />
+    </v-card-title>
+    <v-data-iterator :items="users" :items-per-page="12" :search="search">
+      <template v-slot:default="{ items }">
+        <v-container class="pa-0" fluid>
+          <v-row dense>
+            <v-col
+              v-for="(item, i) in items"
+              :key="i"
+              cols="12"
+              md="6"
+              lg="4"
+              xl="3"
             >
-              <template v-slot:title>
-                <v-chip label :color="RoleColor[item.raw.uRole]">
-                  {{ RoleName[item.raw.uRole] }}
-                </v-chip>
-                {{ item.raw.uId }}
-              </template>
+              <v-card
+                link
+                :to="{ name: 'ManageUserInfo', params: { uId: item.raw.uId } }"
+              >
+                <template v-slot:title>
+                  <v-chip label :color="RoleColor[item.raw.uRole]">
+                    {{ RoleName[item.raw.uRole] }}
+                  </v-chip>
+                  {{ item.raw.uId }}
+                </template>
 
-              <template v-slot:subtitle>
-                {{ item.raw.uEmail }}
-              </template>
+                <template v-slot:subtitle>
+                  {{ item.raw.uEmail }}
+                </template>
 
-              <template v-slot:text>
-                {{ item.raw.uName || "(沒有姓名)" }}
-                {{ item.raw.uPhoneNumber || "(沒有電話號碼)" }}
-                <br />
-                {{ item.raw.uAddress || "(沒有地址)" }}
-              </template>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </template>
+                <template v-slot:text>
+                  {{ item.raw.uName || "(沒有姓名)" }}
+                  {{ item.raw.uPhoneNumber || "(沒有電話號碼)" }}
+                  <br />
+                  {{ item.raw.uAddress || "(沒有地址)" }}
+                </template>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
 
-    <template v-slot:footer="{ page, pageCount }">
-      <v-pagination :model-value="page" :length="pageCount"></v-pagination>
-    </template>
-  </v-data-iterator>
+      <template
+        v-slot:footer="{ page, pageCount, setPage, prevPage, nextPage }"
+      >
+        <v-pagination
+          :model-value="page"
+          :length="pageCount"
+          @update:model-value="setPage($event)"
+          @prev="prevPage"
+          @next="nextPage"
+        />
+      </template>
+    </v-data-iterator>
+  </v-card>
 </template>
