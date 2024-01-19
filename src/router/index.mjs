@@ -136,13 +136,13 @@ const routes = [
           auth: true,
           show: true,
           icon: mdiRobotIndustrial,
-        }, // TODO: icon
+        },
         component: Claw,
       },
       {
         path: "draw",
         name: "Draw",
-        meta: { title: "戳戳樂", auth: true, show: true, icon: "" }, // TODO: icon
+        meta: { title: "戳戳樂", auth: true, show: true, icon: "" },
         component: Draw,
       },
       {
