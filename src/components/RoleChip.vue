@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-  <v-chip label :color="RoleColor[role]">
-    {{ RoleName[role] }}
+  <v-chip label :color="RoleColor[role]" size="small">
+    {{ RoleName[role] || "(未知的身分)" }}
   </v-chip>
 </template>

@@ -1,4 +1,5 @@
 <script setup>
+import { mdiHome } from "@mdi/js";
 import { useRouter } from "vue-router";
 import { userState } from "../store/auth.mjs";
 
@@ -17,7 +18,7 @@ const flatRoutes = (list, originList = [list]) => {
 
 <template>
   <v-main>
-    <v-container class="flex-column">
+    <v-container id="main-content" style="height: 100%">
       <router-view />
     </v-container>
   </v-main>
@@ -34,5 +35,9 @@ const flatRoutes = (list, originList = [list]) => {
         <span>{{ meta?.title }}</span>
       </v-btn>
     </template>
+    <!-- <v-btn value="Home" :to="{ name: 'Home' }">
+      <v-icon :icon="mdiHome" />
+      <span>HOME</span>
+    </v-btn> -->
   </v-bottom-navigation>
 </template>

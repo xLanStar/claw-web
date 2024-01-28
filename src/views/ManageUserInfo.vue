@@ -1,6 +1,7 @@
 <script setup>
 import Form from "@/components/Form.vue";
 import Modal from "@/components/Modal.vue";
+import RoleChip from "@/components/RoleChip.vue";
 import { CommonRules, InputType, useRule } from "@/data/form.mjs";
 import {
   mdiAccount,
@@ -14,7 +15,7 @@ import {
 } from "@mdi/js";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { RoleColor, RoleName, Roles } from "../data/role.mjs";
+import { RoleName, Roles } from "../data/role.mjs";
 import APIHelper from "../helper/APIHelpr.mjs";
 import { MANAGE_USER_LOGIN_LOG_URL, MANAGE_USER_URL } from "../reference.mjs";
 
@@ -70,7 +71,23 @@ const columns = [
     dataIndex: "uClawChance",
     inputType: InputType.Number,
     inputProps: {
-      rules: [useRule.min("金幣", 0)],
+      rules: [useRule.min("夾娃娃機會", 0)],
+    },
+  },
+  {
+    title: "代幣",
+    dataIndex: "uToken",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [useRule.min("代幣", 0), useRule.integer("代幣")],
+    },
+  },
+  {
+    title: "保底值",
+    dataIndex: "uEnergy",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [useRule.min("保底值", 0), useRule.integer("保底值")],
     },
   },
   {
@@ -97,16 +114,16 @@ const user = ref({});
 const panel = ref();
 const loginlogs = ref([]);
 const editDialog = ref();
-const deleteDialog = ref(false);
+const deleteDialog = ref();
 
 const submitEdit = async (data) => {
-  if (!Object.keys(data).length) {
+  if (!data) {
     editDialog.value = false;
     return;
   }
   await APIHelper.put(`${MANAGE_USER_URL}/${route.params.uId}`, data).then(
     (data) => {
-      user.value = data;
+      user.value = { ...user.value, ...data };
       editDialog.value = false;
     }
   );
@@ -115,7 +132,7 @@ const submitEdit = async (data) => {
 const handleDelete = () =>
   APIHelper.delete(`${MANAGE_USER_URL}/${route.params.uId}`).then(() => {
     deleteDialog.value = false;
-    router.go(-1);
+    router.go({ name: "ManageUserList" });
   });
 
 const fetchLoginLog = () =>
@@ -140,12 +157,11 @@ onMounted(() => {
     <v-col>
       <v-card :prepend-icon="mdiAccount" color="primary">
         <template v-slot:title>
+          <role-chip :role="user?.uRole" />
           {{ user?.uEmail }}
         </template>
         <template v-slot:subtitle>
-          <v-chip label :color="RoleColor[user?.uRole]">
-            {{ RoleName[user?.uRole] }}
-          </v-chip>
+          {{ user?.uId }}
         </template>
         <template v-slot:actions>
           <div class="d-flex align-center ga-2">
@@ -232,8 +248,8 @@ onMounted(() => {
     <v-col>
       <v-card
         :prepend-icon="mdiPound"
-        :title="user?.uDrawChance + ' 次'"
-        subtitle="戳戳樂機會"
+        :title="user?.uToken"
+        subtitle="代幣"
         color="secondary"
       >
         <template v-slot:actions>
@@ -246,6 +262,20 @@ onMounted(() => {
           </v-row>
         </template>
       </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-progress-linear
+        :model-value="user?.uEnergy"
+        color="secondary"
+        height="25"
+        rounded
+      >
+        <template v-slot:default="{ value }">
+          <strong>保底值：{{ value }}%</strong>
+        </template>
+      </v-progress-linear>
     </v-col>
   </v-row>
   <v-row>
@@ -267,18 +297,4 @@ onMounted(() => {
       </v-expansion-panels>
     </v-col>
   </v-row>
-  <!-- <v-row>
-      <v-col>
-        <v-progress-linear
-          :model-value="2"
-          color="secondary"
-          height="25"
-          rounded
-        >
-          <template v-slot:default="{ value }">
-            <strong>{{ Math.ceil(value) }}%</strong>
-          </template>
-        </v-progress-linear>
-      </v-col>
-    </v-row> -->
 </template>

@@ -6,6 +6,7 @@ import { defineEmits, defineProps, ref, useSlots, watchEffect } from "vue";
 
 const slots = useSlots();
 const props = defineProps({
+  mode: String,
   data: Object,
   columns: Array,
   title: String,
@@ -22,19 +23,45 @@ const editData = ref({});
 watchEffect(() => {
   const data = {};
   if (!props.columns) return;
-  for (const column of props.columns)
-    data[column?.dataIndex] = props.data?.[column?.dataIndex];
+  for (const { checkEdit, dataIndex, parse, defaultValue } of props.columns) {
+    const value = props.data?.[dataIndex] ?? defaultValue;
+    if (
+      checkEdit && props.data
+        ? checkEdit(value, props.data, props.mode) === false
+        : false
+    )
+      continue;
+    data[dataIndex] = props.data ? parse?.(value, props.data) ?? value : value;
+  }
   editData.value = data;
 });
 
 const handleSubmit = async () => {
   loading.value = true;
-  const data = props.diffOnly
-    ? diff(props.data, editData.value)
-    : editData.value;
-  console.log("data", data);
-  if (props.onSubmit) await props.onSubmit(form.value, data);
-  if (props.onSubmitSuccess && form.value) await props.onSubmitSuccess(data);
+  // process data
+  let data = props.diffOnly ? diff(props.data, editData.value) : editData.value;
+  if (Object.keys(data).length === 0) {
+    data = null;
+  } else {
+    for (const { dataIndex, transform } of props.columns) {
+      if (transform && data[dataIndex]) {
+        data[dataIndex] = transform(data[dataIndex], data);
+      }
+    }
+  }
+  // callback
+  if (props.onSubmit) {
+    try {
+      await props.onSubmit(form.value, data);
+    } catch (_) {}
+  }
+  if (props.onSubmitSuccess && form.value) {
+    try {
+      await props.onSubmitSuccess(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
   loading.value = false;
 };
 </script>
@@ -47,8 +74,9 @@ const handleSubmit = async () => {
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col
+              <template
                 v-for="{
+                  vif,
                   dataIndex,
                   cols,
                   title,
@@ -57,26 +85,31 @@ const handleSubmit = async () => {
                   ...restProps
                 } in columns"
                 :key="dataIndex"
-                :cols="cols || 12"
-                v-bind="restProps"
               >
-                <slot
-                  v-if="slots?.[dataIndex]"
-                  :name="dataIndex"
-                  v-bind="{ value: editData[dataIndex] }"
-                />
-                <component
-                  v-else
-                  :is="InputComponentMap[inputType] || 'v-text-field'"
-                  :label="title"
-                  :type="inputType"
-                  :model-value="editData[dataIndex]"
-                  v-bind="inputProps"
-                  @update:model-value="
-                    editData[dataIndex] = parseInputData(inputType, $event)
-                  "
-                />
-              </v-col>
+                <v-col
+                  v-if="vif ? vif(editData[dataIndex], editData) : true"
+                  :cols="cols || 12"
+                  v-bind="restProps"
+                >
+                  <slot
+                    v-if="slots?.[dataIndex]"
+                    :name="dataIndex"
+                    v-bind="{ value: editData[dataIndex] }"
+                  />
+                  <component
+                    v-else
+                    :is="InputComponentMap[inputType] || 'v-text-field'"
+                    :label="title"
+                    :type="inputType"
+                    :value="editData[dataIndex]"
+                    :model-value="editData[dataIndex]"
+                    v-bind="inputProps"
+                    @update:model-value="
+                      editData[dataIndex] = parseInputData(inputType, $event)
+                    "
+                  />
+                </v-col>
+              </template>
             </v-row>
           </v-container>
         </v-card-text>

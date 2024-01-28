@@ -11,6 +11,11 @@ const props = defineProps({
 
 const search = ref("");
 const addDialog = ref(false);
+
+const onSubmitAdd = async (v) =>
+  props.onAddData(v)?.then?.(() => {
+    addDialog.value = false;
+  });
 </script>
 
 <template>
@@ -42,7 +47,7 @@ const addDialog = ref(false);
           :columns="columns"
           diff-only
           @cancel="addDialog = false"
-          :on-submit-success="onAddData"
+          :on-submit-success="onSubmitAdd"
         >
         </Form>
       </v-dialog>

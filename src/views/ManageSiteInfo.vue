@@ -1,21 +1,36 @@
 <script setup>
 import Form from "@/components/Form.vue";
+import List from "@/components/List.vue";
 import Modal from "@/components/Modal.vue";
 import RoleChip from "@/components/RoleChip.vue";
 import Table from "@/components/Table.vue";
 import { InputType } from "@/data/form.mjs";
 import { Role } from "@/data/role.mjs";
 import { userState } from "@/store/auth.mjs";
+import { formatDateTime } from "@/utils/date.utils.mjs";
 import { mdiArrowLeft, mdiPencil, mdiTrashCan } from "@mdi/js";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import APIHelper from "../helper/APIHelpr.mjs";
-import { MANAGE_SITE_URL } from "../reference.mjs";
+import { MANAGE_MACHINE_URL, MANAGE_SITE_URL } from "../reference.mjs";
 
-const columns = [
+const SiteEditColumns = [
+  {
+    title: "場地名字",
+    dataIndex: "sName",
+    inputType: InputType.Text,
+  },
   {
     title: "場地地址",
     dataIndex: "sAddress",
+    inputType: InputType.Text,
+  },
+];
+
+const MachineAddColumns = [
+  {
+    title: "機台名字",
+    dataIndex: "mName",
     inputType: InputType.Text,
   },
 ];
@@ -28,13 +43,13 @@ const editDialog = ref();
 const deleteDialog = ref(false);
 
 const submitEdit = async (data) => {
-  if (!Object.keys(data).length) {
+  if (!data) {
     editDialog.value = false;
     return;
   }
   await APIHelper.put(`${MANAGE_SITE_URL}/${route.params.sId}`, data).then(
     (data) => {
-      site.value = data;
+      site.value = { ...site.value, ...data };
       editDialog.value = false;
     }
   );
@@ -43,7 +58,15 @@ const submitEdit = async (data) => {
 const handleDelete = () =>
   APIHelper.delete(`${MANAGE_SITE_URL}/${route.params.sId}`).then(() => {
     deleteDialog.value = false;
-    router.go(-1);
+    router.go({ name: "ManageSiteList" });
+  });
+
+const addMachine = async (data) =>
+  APIHelper.post(MANAGE_MACHINE_URL, {
+    ...data,
+    sId: site.value.sId,
+  }).then((data) => {
+    site.value.machines.push(data);
   });
 
 onMounted(() => {
@@ -64,14 +87,24 @@ onMounted(() => {
       <v-card color="primary">
         <template v-slot:title>
           <v-chip label> 場地 </v-chip>
-          {{ site?.sAddress }}
+          {{ site?.sName || "(沒有名字)" }}
         </template>
         <template v-slot:subtitle>
           {{ site?.sId }}
         </template>
-        <template v-if="userState === Role.Root" v-slot:text>
-          <RoleChip :role="site?.user?.uRole || '未知'" />
-          {{ site?.uId }}
+        <template v-if="userState.uRole >= Role.Root" v-slot:text>
+          <List
+            :items="{
+              ...(site?.user ? { 擁有者: site.user } : {}),
+              地址: site?.sAddress,
+              建立時間: formatDateTime(site.createdAt),
+            }"
+          >
+            <template v-slot:擁有者="{ value }">
+              <role-chip :role="value?.uRole" />
+              {{ value?.uEmail }}
+            </template>
+          </List>
         </template>
         <template v-slot:actions>
           <div class="d-flex align-center ga-2">
@@ -80,7 +113,7 @@ onMounted(() => {
                 <v-chip :prepend-icon="mdiPencil" v-bind="props"> 編輯 </v-chip>
               </template>
               <Form
-                :columns="columns"
+                :columns="SiteEditColumns"
                 :data="site"
                 diff-only
                 :on-submit-success="submitEdit"
@@ -114,22 +147,22 @@ onMounted(() => {
     <v-col>
       <div class="text-h5">機台列表</div>
       <Table
-        :items="site?.machines"
-        :columns="[{ title: 'test', dataIndex: 'test' }]"
-        @add-data="(v) => console.log(v)"
+        :items="site?.machines || []"
+        :columns="MachineAddColumns"
+        :on-add-data="addMachine"
       >
-        <template v-slot="{ item }">
+        <template v-slot="item">
           <v-card
             link
-            :to="{ name: 'ManageMachineInfo', params: { mId: item.raw.mId } }"
+            :to="{ name: 'ManageMachineInfo', params: { mId: item.mId } }"
           >
             <template v-slot:title>
               <v-chip label>機台</v-chip>
-              {{ item.raw.mId }}
+              {{ item.mName }}
             </template>
 
             <template v-slot:subtitle>
-              {{ item.raw.mName }}
+              {{ item.mId }}
             </template>
           </v-card>
         </template>

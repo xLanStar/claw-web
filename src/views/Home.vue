@@ -26,7 +26,8 @@ const headers = [
 ];
 const router = useRouter();
 const loading = ref(false);
-const loginlogs = ref([]);
+const loginlogs = ref();
+const panel = ref();
 
 // refresh
 const onClickRefresh = async () => {
@@ -42,6 +43,7 @@ const onClickLogout = () => {
 };
 
 const fetchLoginLog = () =>
+  !loginlogs.value &&
   APIHelper.get(USER_LOGIN_LOG_URL).then((data) => (loginlogs.value = data));
 
 const changeDarkMode = (value) =>
@@ -137,12 +139,26 @@ const changeDarkMode = (value) =>
       <v-card
         v-else
         :prepend-icon="mdiPound"
-        :title="userState?.uDrawChance + ' 次'"
-        subtitle="戳戳樂機會"
+        :title="userState?.uToken"
+        subtitle="代幣"
         color="secondary"
         link
         to="/draw"
       />
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-progress-linear
+        :model-value="userState?.uEnergy"
+        color="secondary"
+        height="25"
+        rounded
+      >
+        <template v-slot:default="{ value }">
+          <strong>保底值：{{ value }}%</strong>
+        </template>
+      </v-progress-linear>
     </v-col>
   </v-row>
   <v-row>
@@ -164,13 +180,4 @@ const changeDarkMode = (value) =>
       </v-expansion-panels>
     </v-col>
   </v-row>
-  <!-- <v-row>
-    <v-col>
-      <v-progress-linear :model-value="2" color="secondary" height="25" rounded>
-        <template v-slot:default="{ value }">
-          <strong>{{ Math.ceil(value) }}%</strong>
-        </template>
-      </v-progress-linear>
-    </v-col>
-  </v-row> -->
 </template>

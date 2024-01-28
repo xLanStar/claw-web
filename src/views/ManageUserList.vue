@@ -1,7 +1,7 @@
 <script setup>
+import RoleChip from "@/components/RoleChip.vue";
 import { mdiMagnify } from "@mdi/js";
 import { onMounted, ref } from "vue";
-import { RoleColor, RoleName } from "../data/role.mjs";
 import APIHelper from "../helper/APIHelpr.mjs";
 import { MANAGE_USER_LIST_URL } from "../reference.mjs";
 
@@ -44,9 +44,7 @@ onMounted(
                 :to="{ name: 'ManageUserInfo', params: { uId: item.raw.uId } }"
               >
                 <template v-slot:title>
-                  <v-chip label :color="RoleColor[item.raw.uRole]">
-                    {{ RoleName[item.raw.uRole] }}
-                  </v-chip>
+                  <role-chip :role="item.raw.uRole" />
                   {{ item.raw.uId }}
                 </template>
 

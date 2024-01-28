@@ -8,6 +8,7 @@ export const InputType = {
   Boolean: "boolean",
   Range: "range",
   AutoComplete: "autocomplete",
+  File: "file",
 };
 
 export const InputComponentMap = {
@@ -20,6 +21,7 @@ export const InputComponentMap = {
   [InputType.Boolean]: "v-checkbox",
   [InputType.Range]: "v-slider",
   [InputType.AutoComplete]: "v-autocomplete",
+  [InputType.File]: "v-file-input",
 };
 
 export const isNumberInputType = (inputType) =>
@@ -29,7 +31,8 @@ export const parseInputData = (inputType, inputData) =>
   isNumberInputType(inputType) ? Number(inputData) : inputData;
 
 export const useRule = {
-  required: (name) => (value) => value ? true : `${name} 為必填欄位`,
+  required: (name) => (value) =>
+    value !== undefined && value !== null ? true : `${name} 為必填欄位`,
   minLength: (name, length) => (value) =>
     value?.length >= length ? true : `${name} 長度不得少於 ${length}`,
   maxLength: (name, length) => (value) =>
@@ -38,10 +41,20 @@ export const useRule = {
     /.+@.+\..+/.test(value) ? true : `${name} 必須是有效的`,
   number: (name) => (value) =>
     /^\d+$/.test(value) ? true : `${name} 必須是數字`,
-  min: (name, min) => (value) =>
-    value >= min ? true : `${name} 必須大於或等於 ${min}.`,
-  max: (name, max) => (value) =>
-    value <= max ? true : `${name} 必須小於或等於 ${max}.`,
+  min:
+    (name, min, nullable = false) =>
+    (value) =>
+      (nullable && (value === null || value === undefined || value === "")) ||
+      value >= min
+        ? true
+        : `${name} 必須大於或等於 ${min}.`,
+  max:
+    (name, max, nullable = false) =>
+    (value) =>
+      (nullable && (value === null || value === undefined || value === "")) ||
+      value <= max
+        ? true
+        : `${name} 必須小於或等於 ${max}.`,
   phone: (name) => (value) =>
     /^09\d{9}$/.test(value) ? true : `${name} 必須是有效的`,
   url: (name) => (value) =>
@@ -50,6 +63,11 @@ export const useRule = {
     pattern.test(value) ? true : `${name} 必須是有效的`,
   alpha: (name) => (value) =>
     /^\w+$/.test(value) ? true : `${name} 必須由英文或數字組成`,
+  integer: (name, nullable) => (value) =>
+    (nullable && (value === null || value === undefined || value === "")) ||
+    /^[-+]?\d+$/.test(value)
+      ? true
+      : `${name} 必須是整數`,
   custom: (name, custom) => (value) =>
     custom(value) ? true : `${name} 必須是有效的`,
 };
@@ -61,4 +79,8 @@ export const CommonRules = {
     useRule.minLength("密碼", 6),
     useRule.alpha("密碼"),
   ],
+};
+
+export const CommonAccept = {
+  Image: "image/*",
 };

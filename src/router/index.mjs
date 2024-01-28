@@ -6,10 +6,12 @@ import Register from "@/views/Register.vue";
 import Shop from "@/views/Shop.vue";
 import {
   mdiAccount,
+  mdiCheckerboard,
   mdiHome,
   mdiListBox,
   mdiMapMarker,
   mdiNotebook,
+  mdiQrcode,
   mdiRobotIndustrial,
   mdiStore,
 } from "@mdi/js";
@@ -76,26 +78,89 @@ const routes = [
           {
             path: "machine",
             name: "ManageMachine",
+            redirect: { name: "ManageMachineList" },
             meta: { title: "機台管理", auth: true, icon: mdiListBox },
-            component: () => import("@/views/ManageMachine.vue"),
+            // component: () => import("@/views/ManageMachine.vue"),
+            children: [
+              {
+                path: "",
+                name: "ManageMachineList",
+                component: () => import("@/views/ManageMachineList.vue"),
+                meta: {
+                  title: "機台列表",
+                },
+              },
+              {
+                path: ":mId",
+                name: "ManageMachineInfo",
+                component: () => import("@/views/ManageMachineInfo.vue"),
+                meta: {
+                  title: "機台詳細資訊",
+                },
+              },
+            ],
           },
           {
-            path: "shop",
-            name: "ManageShop",
-            meta: { title: "商店管理", auth: true, icon: mdiStore },
-            component: () => import("@/views/ManageShop.vue"),
+            path: "qrcode",
+            name: "ManageQRCode",
+            redirect: { name: "ManageQRCodeList" },
+            meta: { title: "QRCode管理", auth: true, icon: mdiQrcode },
+            // component: () => import("@/views/ManageQRCode.vue"),
+            children: [
+              {
+                path: "",
+                name: "ManageQRCodeList",
+                component: () => import("@/views/ManageQRCodeList.vue"),
+                meta: {
+                  title: "QRCode列表",
+                },
+              },
+              {
+                path: ":qrId",
+                name: "ManageQRCodeInfo",
+                component: () => import("@/views/ManageQRCodeInfo.vue"),
+                meta: {
+                  title: "QRCode詳細資訊",
+                },
+              },
+            ],
           },
           {
             path: "draw",
             name: "ManageDraw",
-            meta: { title: "戳戳樂管理", auth: true },
-            component: () => import("@/views/ManageDraw.vue"),
+            meta: { title: "戳戳樂管理", auth: true, icon: mdiCheckerboard },
+            redirect: { name: "ManageDrawList" },
+            // component: () => import("@/views/ManageDraw.vue"),
+            children: [
+              {
+                path: "",
+                name: "ManageDrawList",
+                component: () => import("@/views/ManageDrawList.vue"),
+                meta: {
+                  title: "戳戳樂列表",
+                },
+              },
+              {
+                path: ":dId",
+                name: "ManageDrawInfo",
+                component: () => import("@/views/ManageDrawInfo.vue"),
+                meta: {
+                  title: "戳戳樂詳細資訊",
+                },
+              },
+            ],
           },
           {
             path: "claw",
             name: "ManageClaw",
             meta: { title: "夾娃娃管理", auth: true, icon: mdiRobotIndustrial },
             component: () => import("@/views/ManageClaw.vue"),
+          },
+          {
+            path: "shop",
+            name: "ManageShop",
+            meta: { title: "商店管理", auth: true, icon: mdiStore },
+            component: () => import("@/views/ManageShop.vue"),
           },
           {
             path: "user",
@@ -142,7 +207,12 @@ const routes = [
       {
         path: "draw",
         name: "Draw",
-        meta: { title: "戳戳樂", auth: true, show: true, icon: "" },
+        meta: {
+          title: "戳戳樂",
+          auth: true,
+          show: true,
+          icon: mdiCheckerboard,
+        },
         component: Draw,
       },
       {
