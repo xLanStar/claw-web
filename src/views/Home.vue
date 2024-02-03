@@ -4,6 +4,7 @@ import { USER_INFO_URL, USER_LOGIN_LOG_URL } from "@/reference.mjs";
 import {
   mdiAccount,
   mdiBitcoin,
+  mdiCard,
   mdiCash,
   mdiDiamond,
   mdiLogout,
@@ -142,11 +143,26 @@ const changeDarkMode = (value) =>
       <v-card
         v-else
         :prepend-icon="mdiBitcoin"
-        :title="userState?.uToken"
+        :title="
+          userState?.usertokens.reduce((acc, cur) => acc + cur.utAmount, 0) +
+          ' 枚'
+        "
         subtitle="代幣"
         color="secondary"
         link
         to="/draw"
+      />
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
+      <v-card
+        v-else
+        :prepend-icon="mdiCard"
+        :title="userState?.uCardChance + ' 次'"
+        subtitle="卡片機會"
+        color="secondary"
       />
     </v-col>
   </v-row>

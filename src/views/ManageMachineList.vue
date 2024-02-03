@@ -6,7 +6,11 @@ import { InputType, useRule } from "@/data/form.mjs";
 import { formatDateTime } from "@/utils/date.utils.mjs";
 import { onMounted, ref } from "vue";
 import APIHelper from "../helper/APIHelpr.mjs";
-import { MANAGE_MACHINE_LIST_URL, MANAGE_MACHINE_URL } from "../reference.mjs";
+import {
+  MANAGE_MACHINE_LIST_URL,
+  MANAGE_MACHINE_URL,
+  MANAGE_SITE_LIST_URL,
+} from "../reference.mjs";
 
 const MachineAddColumns = [
   {
@@ -19,6 +23,7 @@ const MachineAddColumns = [
   },
 ];
 
+const sites = ref([]);
 const machines = ref([]);
 const addDialog = ref(false);
 
@@ -29,8 +34,10 @@ const onAddData = (data) =>
       addDialog.value = false;
     });
 
-const fetchData = async () =>
-  (machines.value = await APIHelper.get(MANAGE_MACHINE_LIST_URL));
+const fetchData = async () => {
+  machines.value = await APIHelper.get(MANAGE_MACHINE_LIST_URL);
+  sites.value = await APIHelper.get(MANAGE_SITE_LIST_URL);
+};
 onMounted(fetchData);
 </script>
 

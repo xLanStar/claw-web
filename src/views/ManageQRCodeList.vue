@@ -62,8 +62,12 @@ onMounted(() => {
         primary-key="qrId"
         :items="{
           內容物數量: (item) => item.qrcodecontents?.length,
-          啟用數量: (item) => item.qrcodeitems?.length,
-          停用數量: (item) => item.qrcodeitems?.length,
+          啟用數量: (item) =>
+            item.qrcodeitems.filter(({ qriEnable }) => qriEnable === true)
+              .length,
+          停用數量: (item) =>
+            item.qrcodeitems.filter(({ qriEnable }) => qriEnable === false)
+              .length,
           建立時間: (item) => formatDateTime(item.createdAt),
         }"
       >
