@@ -63,7 +63,7 @@ const QRCodeContentColumns = computed(() => [
       rules: [
         useRule.min("數量", 1),
         useRule.max("數量", 100),
-        useRule.required("類型"),
+        useRule.required("數量"),
       ],
     },
   },
@@ -78,7 +78,7 @@ const QRCodeItemColumns = [
       rules: [
         useRule.min("數量", 1),
         useRule.max("數量", 500),
-        useRule.required("類型"),
+        useRule.required("數量"),
       ],
     },
   },
