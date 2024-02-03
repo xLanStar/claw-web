@@ -2,7 +2,7 @@
 import { InputComponentMap, parseInputData } from "@/data/form.mjs";
 import { diff } from "@/utils/utils.mjs";
 import { mdiCheck, mdiClose } from "@mdi/js";
-import { defineEmits, defineProps, ref, useSlots, watchEffect } from "vue";
+import { ref, useSlots, watchEffect } from "vue";
 
 const slots = useSlots();
 const props = defineProps({
@@ -44,8 +44,8 @@ const handleSubmit = async () => {
     data = null;
   } else {
     for (const { dataIndex, transform } of props.columns) {
-      if (transform && data[dataIndex]) {
-        data[dataIndex] = transform(data[dataIndex], data);
+      if (transform) {
+        data[dataIndex] = transform?.(data[dataIndex], data);
       }
     }
   }
@@ -87,7 +87,7 @@ const handleSubmit = async () => {
                 :key="dataIndex"
               >
                 <v-col
-                  v-if="vif ? vif(editData[dataIndex], editData) : true"
+                  v-if="vif ? vif(editData[dataIndex], editData, mode) : true"
                   :cols="cols || 12"
                   v-bind="restProps"
                 >
@@ -101,11 +101,13 @@ const handleSubmit = async () => {
                     :is="InputComponentMap[inputType] || 'v-text-field'"
                     :label="title"
                     :type="inputType"
-                    :value="editData[dataIndex]"
                     :model-value="editData[dataIndex]"
                     v-bind="inputProps"
                     @update:model-value="
-                      editData[dataIndex] = parseInputData(inputType, $event)
+                      (event) => {
+                        console.log(event, inputType);
+                        editData[dataIndex] = parseInputData(inputType, event);
+                      }
                     "
                   />
                 </v-col>

@@ -1,8 +1,8 @@
 import Claw from "@/views/Claw.vue";
-import Draw from "@/views/Draw.vue";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
+import Scan from "@/views/Scan.vue";
 import Shop from "@/views/Shop.vue";
 import {
   mdiAccount,
@@ -128,7 +128,7 @@ const routes = [
           {
             path: "draw",
             name: "ManageDraw",
-            meta: { title: "戳戳樂管理", auth: true, icon: mdiCheckerboard },
+            meta: { title: "抽獎管理", auth: true, icon: mdiCheckerboard },
             redirect: { name: "ManageDrawList" },
             // component: () => import("@/views/ManageDraw.vue"),
             children: [
@@ -137,7 +137,7 @@ const routes = [
                 name: "ManageDrawList",
                 component: () => import("@/views/ManageDrawList.vue"),
                 meta: {
-                  title: "戳戳樂列表",
+                  title: "抽獎列表",
                 },
               },
               {
@@ -145,7 +145,7 @@ const routes = [
                 name: "ManageDrawInfo",
                 component: () => import("@/views/ManageDrawInfo.vue"),
                 meta: {
-                  title: "戳戳樂詳細資訊",
+                  title: "抽獎詳細資訊",
                 },
               },
             ],
@@ -208,18 +208,43 @@ const routes = [
         path: "draw",
         name: "Draw",
         meta: {
-          title: "戳戳樂",
+          title: "抽獎",
           auth: true,
           show: true,
           icon: mdiCheckerboard,
         },
-        component: Draw,
+        redirect: { name: "DrawList" },
+        // component: () => import("@/views/ManageDraw.vue"),
+        children: [
+          {
+            path: "",
+            name: "DrawList",
+            component: () => import("@/views/DrawList.vue"),
+            meta: {
+              title: "抽獎列表",
+            },
+          },
+          {
+            path: ":dId",
+            name: "DrawInfo",
+            component: () => import("@/views/DrawInfo.vue"),
+            meta: {
+              title: "抽獎",
+            },
+          },
+        ],
       },
       {
         path: "shop",
         name: "Shop",
         meta: { title: "商店", auth: true, show: true, icon: mdiStore },
         component: Shop,
+      },
+      {
+        path: "scan",
+        name: "Scan",
+        meta: { title: "掃描", auth: true, show: false },
+        component: Scan,
       },
     ],
   },

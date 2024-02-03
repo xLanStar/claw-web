@@ -1,7 +1,7 @@
 <script setup>
 import APIHelper from "@/helper/APIHelpr.mjs";
 import { mdiPencil, mdiTrashCan } from "@mdi/js";
-import { computed, defineProps, ref, useSlots } from "vue";
+import { computed, ref, useSlots } from "vue";
 import Form from "./Form.vue";
 import List from "./List.vue";
 import Modal from "./Modal.vue";

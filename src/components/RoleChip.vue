@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from "vue";
 import { RoleColor, RoleName } from "../data/role.mjs";
 
 defineProps({

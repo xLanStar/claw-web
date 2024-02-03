@@ -33,14 +33,14 @@ const panel = ref();
 const drawTooltips = computed(() => {
   const result = [];
   if (draw.value.drawprizes?.length === 0) {
-    result.push("戳戳樂目前沒有獎項，請新增獎項！");
+    result.push("抽獎目前沒有獎項，請新增獎項！");
   } else if (
     !draw.value.drawevents?.some(
       (v) => v.deContentType === DrawEventContentType.ADD_PRIZE_RANDOM
     )
   ) {
     result.push(
-      "戳戳樂目前有獎項，但沒有為其設定丟入戳戳樂的事件，請新增戳戳樂事件！"
+      "抽獎目前有獎項，但沒有為其設定丟入抽獎的事件，請新增抽獎事件！"
     );
   }
   return result.length ? result : null;
@@ -48,19 +48,24 @@ const drawTooltips = computed(() => {
 
 const DrawEditColumns = [
   {
-    title: "戳戳樂名稱",
+    title: "抽獎名稱",
     dataIndex: "dName",
     inputType: InputType.Text,
   },
   {
-    title: "戳戳樂洞數（0~3000）",
+    title: "抽獎啟用狀態（非打勾: 禁用, 打勾: 啟用）",
+    dataIndex: "dEnable",
+    inputType: InputType.Boolean,
+  },
+  {
+    title: "抽獎洞數（0~3000）",
     dataIndex: "dHoleCount",
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("戳戳樂洞數", 0),
-        useRule.max("戳戳樂洞數", 3000),
-        useRule.integer("戳戳樂洞數"),
+        useRule.min("抽獎洞數", 0),
+        useRule.max("抽獎洞數", 3000),
+        useRule.integer("抽獎洞數"),
       ],
     },
   },
@@ -68,47 +73,47 @@ const DrawEditColumns = [
 
 const DrawPrizeColumns = computed(() => [
   {
-    title: "戳戳樂獎項位置（空值代表尚未進入戳戳樂）",
+    title: "抽獎獎項位置（空值代表尚未進入抽獎）",
     dataIndex: "dpPosition",
     inputType: InputType.Text,
     inputProps: {
       rules: [
-        useRule.min("戳戳樂獎項位置", 0, true),
-        useRule.max("戳戳樂獎項位置", draw.value.dHoleCount - 1, true),
-        useRule.integer("戳戳樂獎項位置", true),
+        useRule.min("抽獎獎項位置", 0, true),
+        useRule.max("抽獎獎項位置", draw.value.dHoleCount - 1, true),
+        useRule.integer("抽獎獎項位置", true),
       ],
     },
-    transform: (v) => (v === null || v === undefined ? null : Number(v)),
+    transform: (v) => (!!v ? Number(v) : null),
   },
   // {
-  //   title: "戳戳樂獎項狀態（打勾: 已有人得獎）",
+  //   title: "抽獎獎項狀態（打勾: 已有人得獎）",
   //   dataIndex: "dpStatus",
   //   inputType: InputType.Boolean,
   //   defaultValue: false,
   //   inputProps: {
-  //     rules: [useRule.required("戳戳樂獎項狀態")],
+  //     rules: [useRule.required("抽獎獎項狀態")],
   //   },
   // },
   {
-    title: "戳戳樂獎項獎次",
+    title: "抽獎獎項獎次",
     dataIndex: "dpTitle",
     inputType: InputType.Text,
     inputProps: {
-      rules: [useRule.required("戳戳樂獎項獎次")],
+      rules: [useRule.required("抽獎獎項獎次")],
     },
   },
   {
-    title: "戳戳樂獎項名稱",
+    title: "抽獎獎項名稱",
     dataIndex: "dpName",
     inputType: InputType.Text,
     inputProps: {
-      rules: [useRule.required("戳戳樂獎項名稱")],
+      rules: [useRule.required("抽獎獎項名稱")],
     },
   },
   {
     checkEdit: (_, __, mode) => mode === "add",
     vif: (_, __, mode) => mode === "add",
-    title: "戳戳樂獎項圖片",
+    title: "抽獎獎項圖片",
     dataIndex: "dpImage",
     inputType: InputType.File,
     inputProps: {
@@ -122,37 +127,37 @@ const DrawPrizeColumns = computed(() => [
 
 const DrawEventAddColumns = computed(() => [
   {
-    title: "戳戳樂事件觸發類型",
+    title: "抽獎事件觸發類型",
     dataIndex: "deTriggerType",
     // parse: (_, record) => record?.deTriggerType,
     inputType: InputType.Select,
     inputProps: {
       items: DrawEventTriggerTypeOptions,
-      rules: [useRule.required("戳戳樂事件觸發類型")],
+      rules: [useRule.required("抽獎事件觸發類型")],
     },
   },
   {
     checkEdit: (_, data) =>
       data?.deTriggerType === DrawEventTriggerType.HOLE_LEFT,
     vif: (_, data) => data.deTriggerType === DrawEventTriggerType.HOLE_LEFT,
-    title: "戳戳樂剩餘多少洞數時觸發",
+    title: "抽獎剩餘多少洞數時觸發",
     dataIndex: "deTriggerData",
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("戳戳樂獎項位置", 0, true),
-        useRule.max("戳戳樂獎項位置", draw.value.dHoleCount - 1, true),
-        useRule.integer("戳戳樂獎項位置", true),
+        useRule.min("抽獎獎項位置", 0, true),
+        useRule.max("抽獎獎項位置", draw.value.dHoleCount - 1, true),
+        useRule.integer("抽獎獎項位置", true),
       ],
     },
   },
   {
-    title: "戳戳樂事件內容類型",
+    title: "抽獎事件內容類型",
     dataIndex: "deContentType",
     inputType: InputType.Select,
     inputProps: {
       items: DrawEventContentTypeOptions,
-      rules: [useRule.required("戳戳樂事件內容類型")],
+      rules: [useRule.required("抽獎事件內容類型")],
     },
   },
   {
@@ -160,7 +165,7 @@ const DrawEventAddColumns = computed(() => [
       data?.deContentType === DrawEventContentType.ADD_PRIZE_RANDOM,
     vif: (_, data) =>
       data.deContentType === DrawEventContentType.ADD_PRIZE_RANDOM,
-    title: "戳戳樂獎項",
+    title: "抽獎獎項",
     dataIndex: "deContentData",
     inputType: InputType.Select,
     inputProps: {
@@ -214,7 +219,7 @@ onMounted(() => {
     <v-col>
       <manage-card
         color="primary"
-        label="戳戳樂"
+        label="抽獎"
         :columns="DrawEditColumns"
         :data="draw"
         :data-url="MANAGE_DRAW_URL"
@@ -228,6 +233,7 @@ onMounted(() => {
         :on-delete-data="() => router.go({ name: 'ManageDrawList' })"
         :items="{
           ...(draw?.user ? { 擁有者: (draw) => draw.user } : {}),
+          狀態: (draw) => draw.dEnable,
           洞數: (draw) => draw.dHoleCount,
           剩餘洞數: (draw) => draw.dHoleLeft,
           剩餘獎項: (draw) => draw.dPrizeLeft,
@@ -256,6 +262,11 @@ onMounted(() => {
           <role-chip :role="value?.uRole" />
           {{ value?.uEmail }}
         </template>
+        <template v-slot:狀態="{ value }">
+          <v-chip size="small" :color="value ? 'green' : 'red'">
+            {{ value ? "啟用" : "禁用" }}
+          </v-chip>
+        </template>
       </manage-card>
     </v-col>
   </v-row>
@@ -263,7 +274,7 @@ onMounted(() => {
   <v-row>
     <v-col>
       <div class="text-h5">
-        戳戳樂獎項列表
+        抽獎獎項列表
         <v-tooltip location="top">
           <template v-slot:activator="{ props }">
             <v-icon :icon="mdiAlertCircle" v-bind="props" />
@@ -274,9 +285,9 @@ onMounted(() => {
             </v-row>
             <v-row>
               <p>
-                當戳戳樂被戳完時，會將所有獎項從戳戳樂中拿出來。
+                當抽獎被戳完時，會將所有獎項從抽獎中拿出來。
                 <br />
-                您需要設定戳戳樂事件或手動將獎項放入戳戳樂中，以免造成戳戳樂被戳完，而並未出獎項的狀況。
+                您需要設定抽獎事件或手動將獎項放入抽獎中，以免造成抽獎被戳完，而並未出獎項的狀況。
               </p>
             </v-row>
           </v-col>
@@ -290,7 +301,7 @@ onMounted(() => {
       >
         <template v-slot="item">
           <manage-card
-            label="戳戳樂獎項"
+            label="抽獎獎項"
             :columns="DrawPrizeColumns"
             :data="item"
             :data-url="MANAGE_DRAWPRIZE_URL"
@@ -314,7 +325,9 @@ onMounted(() => {
               獎次: (item) => item.dpTitle,
               名稱: (item) => item.dpName,
               位置: (item) =>
-                item.dpPosition ? item.dpPosition + 1 : '尚未進入戳戳樂',
+                item.dpPosition !== null && item.dpPosition !== undefined
+                  ? item.dpPosition
+                  : '尚未進入抽獎',
               狀態: (item) => item.dpStatus,
               建立時間: (item) => formatDateTime(item.createdAt),
             }"
@@ -352,7 +365,7 @@ onMounted(() => {
   </v-row>
   <v-row>
     <v-col>
-      <div class="text-h5">戳戳樂事件列表</div>
+      <div class="text-h5">抽獎事件列表</div>
       <Table
         :items="draw?.drawevents || []"
         :columns="DrawEventAddColumns"
@@ -360,7 +373,7 @@ onMounted(() => {
       >
         <template v-slot="item">
           <manage-card
-            label="戳戳樂事件"
+            label="抽獎事件"
             :columns="DrawEventAddColumns"
             :data="item"
             :data-url="MANAGE_DRAWEVENT_URL"

@@ -3,12 +3,14 @@ import APIHelper from "@/helper/APIHelpr.mjs";
 import { USER_INFO_URL, USER_LOGIN_LOG_URL } from "@/reference.mjs";
 import {
   mdiAccount,
+  mdiBitcoin,
   mdiCash,
   mdiDiamond,
   mdiLogout,
   mdiMoonWaningCrescent,
-  mdiPound,
+  mdiQrcodeScan,
   mdiRefresh,
+  mdiTeddyBear,
   mdiWhiteBalanceSunny,
 } from "@mdi/js";
 import { ref } from "vue";
@@ -75,6 +77,7 @@ const changeDarkMode = (value) =>
   <v-row>
     <v-col>
       <div class="d-flex align-center justify-start ga-2">
+        <v-btn :prepend-icon="mdiQrcodeScan" :to="{ name: 'Scan' }">掃描</v-btn>
         <div>
           <v-switch
             :label="
@@ -126,7 +129,7 @@ const changeDarkMode = (value) =>
       <v-skeleton-loader v-if="loading" type="card" color="secondary" />
       <v-card
         v-else
-        :prepend-icon="mdiPound"
+        :prepend-icon="mdiTeddyBear"
         :title="userState?.uClawChance + ' 次'"
         subtitle="夾娃娃機會"
         color="secondary"
@@ -138,7 +141,7 @@ const changeDarkMode = (value) =>
       <v-skeleton-loader v-if="loading" type="card" color="secondary" />
       <v-card
         v-else
-        :prepend-icon="mdiPound"
+        :prepend-icon="mdiBitcoin"
         :title="userState?.uToken"
         subtitle="代幣"
         color="secondary"

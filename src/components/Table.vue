@@ -1,7 +1,7 @@
 <script setup>
 import Form from "@/components/Form.vue";
 import { mdiMagnify, mdiPlus } from "@mdi/js";
-import { defineProps, ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   items: Array,
@@ -20,7 +20,7 @@ const onSubmitAdd = async (v) =>
 
 <template>
   <v-card>
-    <v-card-title class="d-flex align-center pe-2">
+    <v-card-title class="d-flex align-center pe-2 ga-2">
       <v-text-field
         v-model="search"
         density="comfortable"
@@ -31,8 +31,11 @@ const onSubmitAdd = async (v) =>
         variant="solo"
         flat
       />
+      <slot name="prepend-title" />
 
       <v-spacer />
+
+      <slot name="append-title" />
 
       <v-dialog
         v-if="props.onAddData"
@@ -44,12 +47,12 @@ const onSubmitAdd = async (v) =>
           <v-btn flat text="新增" :prepend-icon="mdiPlus" v-bind="props" />
         </template>
         <Form
+          mode="add"
           :columns="columns"
           diff-only
           @cancel="addDialog = false"
           :on-submit-success="onSubmitAdd"
-        >
-        </Form>
+        />
       </v-dialog>
     </v-card-title>
 

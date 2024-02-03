@@ -1,5 +1,4 @@
 <script setup>
-import { mdiHome } from "@mdi/js";
 import { useRouter } from "vue-router";
 import { userState } from "../store/auth.mjs";
 
@@ -17,7 +16,7 @@ const flatRoutes = (list, originList = [list]) => {
 </script>
 
 <template>
-  <v-main>
+  <v-main class="fill-height">
     <v-container id="main-content" style="height: 100%">
       <router-view />
     </v-container>

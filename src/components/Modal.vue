@@ -1,11 +1,11 @@
 <script setup>
 import { mdiCheck, mdiClose } from "@mdi/js";
-import { defineProps, ref, useSlots } from "vue";
+import { ref, useSlots } from "vue";
 
 const slots = useSlots();
 
 const props = defineProps({
-  type: { type: String, default: "confirm" },
+  type: { type: String, default: "yesno" },
   title: String,
   subtitle: String,
   text: String,
@@ -13,9 +13,9 @@ const props = defineProps({
   toggle: Function,
   confirmIcon: { type: String, default: mdiCheck },
   cancelIcon: { type: String, default: mdiClose },
+  onCancel: Function,
   onConfirm: Function,
 });
-const emits = defineEmits(["cancel"]);
 
 const loading = ref(false);
 
@@ -49,14 +49,29 @@ const handleConfirm = async () => {
           <slot v-if="slots.actions" name="actions" />
           <template v-else>
             <v-spacer />
-            <template v-if="props.type === 'confirm'">
+            <template v-if="type === 'yesno'">
               <v-btn
                 text
                 :prepend-icon="cancelIcon"
-                @click="(toggle && toggle()) || emits('cancel')"
+                @click="
+                  () => {
+                    toggle?.();
+                    onCancel?.();
+                  }
+                "
               >
                 取消
               </v-btn>
+              <v-btn
+                :loading="loading"
+                text
+                :prepend-icon="confirmIcon"
+                @click="handleConfirm"
+              >
+                確定
+              </v-btn>
+            </template>
+            <template v-if="type === 'confirm'">
               <v-btn
                 :loading="loading"
                 text

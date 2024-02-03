@@ -23,7 +23,7 @@ export const DrawEventContentType = {
 };
 
 export const DrawEventContentTypeNameMap = {
-  [DrawEventContentType.RESET]: "重置戳戳樂",
+  [DrawEventContentType.RESET]: "重置抽獎",
   [DrawEventContentType.ADD_PRIZE_RANDOM]: "加入獎項至隨機空位",
 };
 

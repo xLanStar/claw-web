@@ -32,6 +32,7 @@ export const MANAGE_SITE_LIST_URL = `${MANAGE_SITE_URL}/list`;
 // Manage-Machine
 export const MANAGE_MACHINE_URL = `${MANAGE_URL}/machine`;
 export const MANAGE_MACHINE_LIST_URL = `${MANAGE_MACHINE_URL}/list`;
+export const MANAGE_MACHINE_ALL_QRCODE_URL = `${MANAGE_MACHINE_URL}/all-qrcode`;
 
 // Manage-QRCode
 export const MANAGE_QRCODE_URL = `${MANAGE_URL}/qrcode`;
@@ -66,3 +67,7 @@ export const MANAGE_CLAW_LIST_URL = `${MANAGE_CLAW_URL}/list`;
 export const USER_URL = `/user`;
 export const USER_INFO_URL = `${USER_URL}/info`;
 export const USER_LOGIN_LOG_URL = `${USER_URL}/loginlog`;
+
+// Draw
+export const DRAW_URL = `/draw`;
+export const DRAW_LIST_URL = `${DRAW_URL}/list`;

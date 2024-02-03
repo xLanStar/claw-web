@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from "vue";
 import GameWindow from "./GameWindow.vue";
 
 const props = defineProps({

@@ -10,19 +10,19 @@ import { MANAGE_DRAW_LIST_URL, MANAGE_DRAW_URL } from "../reference.mjs";
 
 const DrawAddColumns = [
   {
-    title: "戳戳樂名稱",
+    title: "抽獎名稱",
     dataIndex: "dName",
     inputType: InputType.Text,
   },
   {
-    title: "戳戳樂洞數（0~3000）",
+    title: "抽獎洞數（0~3000）",
     dataIndex: "dHoleCount",
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("戳戳樂洞數", 0),
-        useRule.max("戳戳樂洞數", 3000),
-        useRule.integer("戳戳樂洞數"),
+        useRule.min("抽獎洞數", 0),
+        useRule.max("抽獎洞數", 3000),
+        useRule.integer("抽獎洞數"),
       ],
     },
   },
@@ -49,7 +49,7 @@ onMounted(fetchData);
     <template v-slot="item">
       <v-card link :to="{ name: 'ManageDrawInfo', params: { dId: item.dId } }">
         <template v-slot:title>
-          <v-chip label size="small">戳戳樂</v-chip>
+          <v-chip label size="small">抽獎</v-chip>
           {{ item.dName || "(沒有名字)" }}
         </template>
 
@@ -57,6 +57,7 @@ onMounted(fetchData);
           <List
             :items="{
               ...(item?.user ? { 擁有者: item.user } : {}),
+              狀態: item?.dEnable,
               洞數: item?.dHoleCount,
               剩餘洞數: item?.dHoleLeft,
               剩餘獎項: item?.dPrizeLeft,
@@ -66,6 +67,11 @@ onMounted(fetchData);
             <template v-slot:擁有者="{ value }">
               <role-chip :role="value?.uRole" />
               {{ value?.uEmail }}
+            </template>
+            <template v-slot:狀態="{ value }">
+              <v-chip size="small" :color="value ? 'green' : 'red'">
+                {{ value ? "啟用" : "禁用" }}
+              </v-chip>
             </template>
           </List>
         </template>

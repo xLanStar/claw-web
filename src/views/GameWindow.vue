@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
   gameName: "circle",

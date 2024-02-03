@@ -176,11 +176,7 @@ onMounted(() => {
               <h4>重要提醒</h4>
             </v-row>
             <v-row>
-              <p>
-                當戳戳樂被戳完時，會將所有獎項從戳戳樂中拿出來。
-                <br />
-                您需要設定戳戳樂事件或手動將獎項放入戳戳樂中，以免造成戳戳樂被戳完，而並未出獎項的狀況。
-              </p>
+              <p></p>
             </v-row>
           </v-col>
         </v-tooltip>
@@ -246,11 +242,7 @@ onMounted(() => {
               <h4>重要提醒</h4>
             </v-row>
             <v-row>
-              <p>
-                當戳戳樂被戳完時，會將所有獎項從戳戳樂中拿出來。
-                <br />
-                您需要設定戳戳樂事件或手動將獎項放入戳戳樂中，以免造成戳戳樂被戳完，而並未出獎項的狀況。
-              </p>
+              <p>請避免讓編號與金鑰外洩，以免造成損失。</p>
             </v-row>
           </v-col>
         </v-tooltip>
@@ -279,6 +271,8 @@ onMounted(() => {
                 )
             "
             :items="{
+              編號: (item) => item.qriShortId,
+              金鑰: (item) => item.qriKey,
               是否啟用: (item) => item.qriEnable,
               建立時間: (item) => formatDateTime(item.createdAt),
             }"

@@ -4,7 +4,7 @@ import RoleChip from "@/components/RoleChip.vue";
 import Table from "@/components/Table.vue";
 import { InputType, useRule } from "@/data/form.mjs";
 import { formatDateTime } from "@/utils/date.utils.mjs";
-import { mdiAlertCircle, mdiArrowLeft } from "@mdi/js";
+import { mdiAlertCircle, mdiArrowLeft, mdiPrinter } from "@mdi/js";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import APIHelper from "../helper/APIHelpr.mjs";
@@ -45,27 +45,27 @@ const QRCodeColumns = [
 //     checkEdit: (_, data) =>
 //       data.deTrigger.type === DrawEventTriggerType.HOLE_LEFT,
 //     vif: (_, data) => data.deTriggerType === DrawEventTriggerType.HOLE_LEFT,
-//     title: "戳戳樂剩餘多少洞數時觸發",
+//     title: "抽獎剩餘多少洞數時觸發",
 //     parse: (_, record) => record.deTrigger.data,
 //     dataIndex: "deTriggerHoleLeft",
 //     inputType: InputType.Number,
 //     inputProps: {
 //       rules: [
-//         useRule.min("戳戳樂獎項位置", 0, true),
-//         useRule.max("戳戳樂獎項位置", draw.value.dHoleCount - 1, true),
-//         useRule.integer("戳戳樂獎項位置", true),
+//         useRule.min("抽獎獎項位置", 0, true),
+//         useRule.max("抽獎獎項位置", draw.value.dHoleCount - 1, true),
+//         useRule.integer("抽獎獎項位置", true),
 //       ],
 //     },
 //   },
 //   {
-//     title: "戳戳樂事件內容類型",
+//     title: "抽獎事件內容類型",
 //     dataIndex: "deContentType",
 //     parse: (_, record) => record.deContent.type,
 //     inputType: InputType.Select,
 //     inputProps: {
 //       items: DrawEventContentTypeOptions,
 //       itemProps: ({ label }) => ({ title: label }),
-//       rules: [useRule.required("戳戳樂事件內容類型")],
+//       rules: [useRule.required("抽獎事件內容類型")],
 //     },
 //   },
 //   {
@@ -73,7 +73,7 @@ const QRCodeColumns = [
 //       data.deContent.type === DrawEventContentType.ADD_PRIZE_RANDOM,
 //     vif: (_, data) =>
 //       data.deContentType === DrawEventContentType.ADD_PRIZE_RANDOM,
-//     title: "戳戳樂獎項",
+//     title: "抽獎獎項",
 //     dataIndex: "deContentdpIds",
 //     parse: (_, record) => record.deContent.data,
 //     inputType: InputType.Select,
@@ -91,14 +91,27 @@ const router = useRouter();
 const route = useRoute();
 
 const machine = ref({});
+const pdf = ref();
 
 const machineTooltips = computed(() => null);
 
-const submitAddQRCode = (data) =>
+const onSubmitAddQRCode = (data) =>
   APIHelper.post(MANAGE_QRCODE_URL, {
     ...data,
     mId: route.params.mId,
   }).then((data) => machine.value.qrcodes?.push(data));
+
+const onSubmitPrint = async () => {
+  // APIHelper.get(`${MANAGE_MACHINE_ALL_QRCODE_URL}/${route.params.mId}`).then(
+  //   (data) => {
+  //     const a = document.createElement("a");
+  //     a.href = URL.createObjectURL(
+  //       new Blob([data], { type: "application/pdf" })
+  //     );
+  //     a.click();
+  //   }
+  // );
+};
 
 onMounted(() => {
   APIHelper.get(`${MANAGE_MACHINE_URL}/${route.params.mId}`).then(
@@ -122,7 +135,7 @@ onMounted(() => {
         :columns="MachineEditColumns"
         :data="machine"
         :data-url="MANAGE_MACHINE_URL"
-        primary-key="dId"
+        primary-key="mId"
         :on-edit-data="
           (data) => {
             machine = { ...machine, ...data };
@@ -175,9 +188,9 @@ onMounted(() => {
             </v-row>
             <v-row>
               <p>
-                當戳戳樂被戳完時，會將所有獎項從戳戳樂中拿出來。
+                當抽獎被戳完時，會將所有獎項從抽獎中拿出來。
                 <br />
-                您需要設定戳戳樂事件或手動將獎項放入戳戳樂中，以免造成戳戳樂被戳完，而並未出獎項的狀況。
+                您需要設定抽獎事件或手動將獎項放入抽獎中，以免造成抽獎被戳完，而並未出獎項的狀況。
               </p>
             </v-row>
           </v-col>
@@ -186,8 +199,13 @@ onMounted(() => {
       <Table
         :items="machine?.qrcodes || []"
         :columns="QRCodeColumns"
-        :on-add-data="submitAddQRCode"
+        :on-add-data="onSubmitAddQRCode"
       >
+        <template v-slot:append-title>
+          <v-btn :prepend-icon="mdiPrinter" @click="onSubmitPrint">
+            列印全部
+          </v-btn>
+        </template>
         <!-- 
         :columns=""
         :on-add-data=""
