@@ -158,10 +158,24 @@ const DrawEventAddColumns = computed(() => [
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("抽獎獎項位置", 0, true),
-        useRule.max("抽獎獎項位置", draw.value.dHoleCount - 1, true),
-        useRule.integer("抽獎獎項位置", true),
+        useRule.min("抽獎剩餘多少洞數時觸發", 0, true),
+        useRule.max("抽獎剩餘多少洞數時觸發", draw.value.dHoleCount - 1, true),
+        useRule.integer("抽獎剩餘多少洞數時觸發", true),
       ],
+    },
+  },
+  {
+    checkEdit: (_, data) =>
+      data?.deTriggerType === DrawEventTriggerType.PRIZE_DRAWN,
+    vif: (_, data) => data.deTriggerType === DrawEventTriggerType.PRIZE_DRAWN,
+    title: "哪個獎項被抽到時觸發",
+    dataIndex: "deTriggerData",
+    inputType: InputType.Select,
+    inputProps: {
+      items: draw.value.drawprizes?.map?.(({ dpId, dpTitle, dpName }) => ({
+        value: dpId,
+        title: `${dpTitle} - ${dpName}`,
+      })),
     },
   },
   {

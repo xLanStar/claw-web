@@ -1,11 +1,13 @@
 export const DrawEventTriggerType = {
   HOLE_LEFT: 0,
   RESET: 1,
+  PRIZE_DRAWN: 2,
 };
 
 export const DrawEventTriggerTypeNameMap = {
   [DrawEventTriggerType.HOLE_LEFT]: "洞數剩餘",
   [DrawEventTriggerType.RESET]: "重置時",
+  [DrawEventTriggerType.PRIZE_DRAWN]: "獎項抽出時",
 };
 
 export const DrawEventTriggerTypeOptions = Object.values(
