@@ -59,14 +59,25 @@ const DrawEditColumns = [
     inputType: InputType.Boolean,
   },
   {
-    title: "抽獎洞數（0~3000）",
+    title: "抽獎洞數（1~3000）",
     dataIndex: "dHoleCount",
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("抽獎洞數", 0),
+        useRule.min("抽獎洞數", 1),
         useRule.max("抽獎洞數", 3000),
         useRule.integer("抽獎洞數"),
+      ],
+    },
+  },
+  {
+    title: "抽獎所需代幣數量",
+    dataIndex: "dCost",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [
+        useRule.min("抽獎所需代幣數量", 1),
+        useRule.integer("抽獎所需代幣數量"),
       ],
     },
   },
@@ -238,6 +249,7 @@ onMounted(() => {
           洞數: (draw) => draw.dHoleCount,
           剩餘洞數: (draw) => draw.dHoleLeft,
           剩餘獎項: (draw) => draw.dPrizeLeft,
+          所需代幣: (draw) => draw.dCost,
           建立時間: (draw) => formatDateTime(draw.createdAt),
         }"
       >

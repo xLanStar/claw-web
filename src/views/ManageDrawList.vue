@@ -15,14 +15,25 @@ const DrawAddColumns = [
     inputType: InputType.Text,
   },
   {
-    title: "抽獎洞數（0~3000）",
+    title: "抽獎洞數（1~3000）",
     dataIndex: "dHoleCount",
     inputType: InputType.Number,
     inputProps: {
       rules: [
-        useRule.min("抽獎洞數", 0),
+        useRule.min("抽獎洞數", 1),
         useRule.max("抽獎洞數", 3000),
         useRule.integer("抽獎洞數"),
+      ],
+    },
+  },
+  {
+    title: "抽獎所需代幣數量",
+    dataIndex: "dCost",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [
+        useRule.min("抽獎所需代幣數量", 1),
+        useRule.integer("抽獎所需代幣數量"),
       ],
     },
   },
@@ -61,6 +72,7 @@ onMounted(fetchData);
               洞數: item?.dHoleCount,
               剩餘洞數: item?.dHoleLeft,
               剩餘獎項: item?.dPrizeLeft,
+              所需代幣: item?.dCost,
               建立時間: formatDateTime(item.createdAt),
             }"
           >
