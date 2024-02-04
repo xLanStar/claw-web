@@ -21,6 +21,7 @@ import APIHelper from "../helper/APIHelpr.mjs";
 import {
   MANAGE_DRAWEVENT_URL,
   MANAGE_DRAWPRIZE_URL,
+  MANAGE_DRAW_RESET_URL,
   MANAGE_DRAW_URL,
   RESOURCE_IMAGE_DRAWPRIZE_URL,
 } from "../reference.mjs";
@@ -358,7 +359,7 @@ onMounted(() => {
               名稱: (item) => item.dpName,
               位置: (item) =>
                 item.dpPosition !== null && item.dpPosition !== undefined
-                  ? item.dpPosition
+                  ? `在 ${item.dpPosition} 號格子`
                   : '尚未進入抽獎',
               狀態: (item) => item.dpStatus,
               建立時間: (item) => formatDateTime(item.createdAt),

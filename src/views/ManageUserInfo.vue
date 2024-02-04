@@ -157,7 +157,7 @@ onMounted(() => {
     <v-col>
       <v-card :prepend-icon="mdiAccount" color="primary">
         <template v-slot:title>
-          <role-chip :role="user?.uRole" />
+          <role-chip v-if="user?.uRole" :role="user?.uRole" />
           {{ user?.uEmail }}
         </template>
         <template v-slot:subtitle>
@@ -252,7 +252,7 @@ onMounted(() => {
           <v-row dense>
             <v-col cols="auto">
               <v-btn :prepend-icon="mdiViewList" @click.stop>
-                查看次數詳細來源
+                查看代幣詳細來源
               </v-btn>
             </v-col>
           </v-row>
