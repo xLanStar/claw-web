@@ -74,14 +74,14 @@ const columns = [
       rules: [useRule.min("夾娃娃機會", 0)],
     },
   },
-  // {
-  //   title: "代幣",
-  //   dataIndex: "uToken",
-  //   inputType: InputType.Number,
-  //   inputProps: {
-  //     rules: [useRule.min("代幣", 0), useRule.integer("代幣")],
-  //   },
-  // },
+  {
+    title: "新增代幣(輸入幾個，就會新增幾個)",
+    dataIndex: "token",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [useRule.min("新增代幣", 0), useRule.integer("新增代幣")],
+    },
+  },
   {
     title: "保底值",
     dataIndex: "uEnergy",
