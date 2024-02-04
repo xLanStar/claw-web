@@ -68,7 +68,12 @@ const handleConfirm = async () => {
                   :loading="loading"
                   text
                   :prepend-icon="confirmIcon"
-                  @click="handleConfirm"
+                  @click="
+                    () => {
+                      isActive.value = false;
+                      handleConfirm?.();
+                    }
+                  "
                 >
                   確定
                 </v-btn>
@@ -78,7 +83,12 @@ const handleConfirm = async () => {
                   :loading="loading"
                   text
                   :prepend-icon="confirmIcon"
-                  @click="handleConfirm"
+                  @click="
+                    () => {
+                      isActive.value = false;
+                      handleConfirm?.();
+                    }
+                  "
                 >
                   確定
                 </v-btn>
