@@ -74,14 +74,14 @@ const columns = [
       rules: [useRule.min("夾娃娃機會", 0)],
     },
   },
-  {
-    title: "代幣",
-    dataIndex: "uToken",
-    inputType: InputType.Number,
-    inputProps: {
-      rules: [useRule.min("代幣", 0), useRule.integer("代幣")],
-    },
-  },
+  // {
+  //   title: "代幣",
+  //   dataIndex: "uToken",
+  //   inputType: InputType.Number,
+  //   inputProps: {
+  //     rules: [useRule.min("代幣", 0), useRule.integer("代幣")],
+  //   },
+  // },
   {
     title: "保底值",
     dataIndex: "uEnergy",
@@ -209,9 +209,7 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-btn :prepend-icon="mdiViewList" @click.stop>
-            查看購買紀錄
-          </v-btn>
+          <v-btn :prepend-icon="mdiViewList" @click.stop> 查看購買紀錄 </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -223,9 +221,7 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-btn :prepend-icon="mdiViewList" @click.stop>
-            查看兌換紀錄
-          </v-btn>
+          <v-btn :prepend-icon="mdiViewList" @click.stop> 查看兌換紀錄 </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -239,16 +235,16 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-btn :prepend-icon="mdiViewList" @click.stop>
-            查看使用紀錄
-          </v-btn>
+          <v-btn :prepend-icon="mdiViewList" @click.stop> 查看使用紀錄 </v-btn>
         </template>
       </v-card>
     </v-col>
     <v-col>
       <v-card
         :prepend-icon="mdiPound"
-        :title="user?.uToken"
+        :title="
+          user?.usertokens?.reduce((acc, { utAmount }) => acc + utAmount, 0)
+        "
         subtitle="代幣"
         color="secondary"
       >
