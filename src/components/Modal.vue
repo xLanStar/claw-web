@@ -69,9 +69,9 @@ const handleConfirm = async () => {
                   text
                   :prepend-icon="confirmIcon"
                   @click="
-                    () => {
+                    async () => {
+                      await handleConfirm?.();
                       isActive.value = false;
-                      handleConfirm?.();
                     }
                   "
                 >
@@ -84,9 +84,9 @@ const handleConfirm = async () => {
                   text
                   :prepend-icon="confirmIcon"
                   @click="
-                    () => {
+                    async () => {
+                      await handleConfirm?.();
                       isActive.value = false;
-                      handleConfirm?.();
                     }
                   "
                 >
