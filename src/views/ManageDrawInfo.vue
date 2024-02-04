@@ -1,5 +1,6 @@
 <script setup>
 import ManageCard from "@/components/ManageCard.vue";
+import Modal from "@/components/Modal.vue";
 import RoleChip from "@/components/RoleChip.vue";
 import Table from "@/components/Table.vue";
 import {
@@ -13,7 +14,7 @@ import {
 import { DrawPrizeStatus, DrawPrizeStatusColor } from "@/data/drawPrize.mjs";
 import { CommonAccept, InputType, useRule } from "@/data/form.mjs";
 import { formatDateTime } from "@/utils/date.utils.mjs";
-import { mdiAlertCircle, mdiArrowLeft, mdiImage } from "@mdi/js";
+import { mdiAlertCircle, mdiArrowLeft, mdiImage, mdiRestore } from "@mdi/js";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import APIHelper from "../helper/APIHelpr.mjs";
@@ -257,6 +258,25 @@ onMounted(() => {
               </v-row>
             </v-col>
           </v-tooltip>
+        </template>
+        <template v-slot:actions>
+          <Modal
+            :on-confirm="
+              () => {
+                APIHelper.post(`${MANAGE_DRAW_RESET_URL}/${draw.dId}`).then(
+                  (data) => (draw = data)
+                );
+              }
+            "
+          >
+            <template v-slot:default="{ props }">
+              <v-btn v-bind="props" :prepend-icon="mdiRestore"> 重置 </v-btn>
+            </template>
+            <template v-slot:title>重置抽獎</template>
+            <template v-slot:text>
+              <p>確定要重置抽獎嗎？</p>
+            </template>
+          </Modal>
         </template>
         <template v-slot:擁有者="{ value }">
           <role-chip :role="value?.uRole" />

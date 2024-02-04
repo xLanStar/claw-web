@@ -110,7 +110,7 @@ onMounted(() => {
           <div class="d-flex align-center ga-2">
             <v-dialog v-model="editDialog" persistent width="600">
               <template v-slot:activator="{ props }">
-                <v-chip :prepend-icon="mdiPencil" v-bind="props"> 編輯 </v-chip>
+                <v-btn :prepend-icon="mdiPencil" v-bind="props"> 編輯 </v-btn>
               </template>
               <Form
                 :columns="SiteEditColumns"
@@ -128,14 +128,14 @@ onMounted(() => {
               :on-confirm="handleDelete"
             >
               <template v-slot="{ props }">
-                <v-chip
+                <v-btn
                   :prepend-icon="mdiTrashCan"
                   color="red"
                   v-bind="props"
                   @click="deleteDialog = true"
                 >
                   刪除
-                </v-chip>
+                </v-btn>
               </template>
             </Modal>
           </div>

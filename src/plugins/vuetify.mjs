@@ -28,6 +28,9 @@ const vuetify = createVuetify({
   defaults: {
     VCard: {
       variant: "tonal",
+      VButton: {
+        variant: "elevated",
+      },
     },
   },
 });

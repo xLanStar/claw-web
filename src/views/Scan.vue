@@ -23,6 +23,8 @@ const claimQRCode = (qriShortId, qriKey) => {
             return `金幣 x ${qrcCount}`;
           case QRCodeContentType.Token:
             return `代幣 x ${qrcCount}`;
+          case QRCodeContentType.Card:
+            return `卡片機會 x ${qrcCount}`;
         }
       })
       .join("、");

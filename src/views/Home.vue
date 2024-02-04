@@ -63,14 +63,14 @@ const changeDarkMode = (value) =>
       <v-card v-else :prepend-icon="mdiAccount" color="primary">
         <template v-slot:title>{{ userState?.uEmail }}</template>
         <template v-slot:subtitle>
-          <v-chip label :color="RoleColor[userState?.uRole]">
+          <v-btn label :color="RoleColor[userState?.uRole]">
             {{ RoleName[userState?.uRole] }}
-          </v-chip>
+          </v-btn>
         </template>
         <template v-slot:actions>
-          <v-chip :prepend-icon="mdiLogout" color="red" @click="onClickLogout">
+          <v-btn :prepend-icon="mdiLogout" color="red" @click="onClickLogout">
             登出
-          </v-chip>
+          </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -91,9 +91,9 @@ const changeDarkMode = (value) =>
             @update:model-value="changeDarkMode($event)"
           />
         </div>
-        <v-chip :prepend-icon="mdiRefresh" @click="onClickRefresh">
+        <v-btn :prepend-icon="mdiRefresh" @click="onClickRefresh">
           重新整理
-        </v-chip>
+        </v-btn>
       </div>
     </v-col>
   </v-row>

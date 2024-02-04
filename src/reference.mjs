@@ -32,7 +32,6 @@ export const MANAGE_SITE_LIST_URL = `${MANAGE_SITE_URL}/list`;
 // Manage-Machine
 export const MANAGE_MACHINE_URL = `${MANAGE_URL}/machine`;
 export const MANAGE_MACHINE_LIST_URL = `${MANAGE_MACHINE_URL}/list`;
-export const MANAGE_MACHINE_ALL_QRCODE_URL = `${MANAGE_MACHINE_URL}/all-qrcode`;
 
 // Manage-QRCode
 export const MANAGE_QRCODE_URL = `${MANAGE_URL}/qrcode`;
@@ -45,10 +44,12 @@ export const MANAGE_QRCODECONTENT_LIST_URL = `${MANAGE_QRCODECONTENT_URL}/list`;
 // Manage-QRCodeContent
 export const MANAGE_QRCODEITEM_URL = `${MANAGE_URL}/qrcodeitem`;
 export const MANAGE_QRCODEITEM_LIST_URL = `${MANAGE_QRCODEITEM_URL}/list`;
+export const MANAGE_QRCODEITEM_PRINT_MACHINE_URL = `${MANAGE_MACHINE_URL}/print-machine`;
 
 // Manage-Draw
 export const MANAGE_DRAW_URL = `${MANAGE_URL}/draw`;
 export const MANAGE_DRAW_LIST_URL = `${MANAGE_DRAW_URL}/list`;
+export const MANAGE_DRAW_RESET_URL = `${MANAGE_DRAW_URL}/reset`;
 
 // Manage-DrawPrize
 export const MANAGE_DRAWPRIZE_URL = `${MANAGE_URL}/drawprize`;

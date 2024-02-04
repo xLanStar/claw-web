@@ -167,7 +167,7 @@ onMounted(() => {
           <div class="d-flex align-center ga-2">
             <v-dialog v-model="editDialog" persistent width="600">
               <template v-slot:activator="{ props }">
-                <v-chip :prepend-icon="mdiPencil" v-bind="props"> 編輯 </v-chip>
+                <v-btn :prepend-icon="mdiPencil" v-bind="props"> 編輯 </v-btn>
               </template>
               <Form
                 :columns="columns"
@@ -185,14 +185,14 @@ onMounted(() => {
               :on-confirm="handleDelete"
             >
               <template v-slot="{ props }">
-                <v-chip
+                <v-btn
                   :prepend-icon="mdiTrashCan"
                   color="red"
                   v-bind="props"
                   @click="deleteDialog = true"
                 >
                   刪除
-                </v-chip>
+                </v-btn>
               </template>
             </Modal>
           </div>
@@ -209,9 +209,9 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-chip :prepend-icon="mdiViewList" @click.stop>
+          <v-btn :prepend-icon="mdiViewList" @click.stop>
             查看購買紀錄
-          </v-chip>
+          </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -223,9 +223,9 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-chip :prepend-icon="mdiViewList" @click.stop>
+          <v-btn :prepend-icon="mdiViewList" @click.stop>
             查看兌換紀錄
-          </v-chip>
+          </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -239,9 +239,9 @@ onMounted(() => {
         color="secondary"
       >
         <template v-slot:actions>
-          <v-chip :prepend-icon="mdiViewList" @click.stop>
+          <v-btn :prepend-icon="mdiViewList" @click.stop>
             查看使用紀錄
-          </v-chip>
+          </v-btn>
         </template>
       </v-card>
     </v-col>
@@ -255,9 +255,9 @@ onMounted(() => {
         <template v-slot:actions>
           <v-row dense>
             <v-col cols="auto">
-              <v-chip :prepend-icon="mdiViewList" @click.stop>
+              <v-btn :prepend-icon="mdiViewList" @click.stop>
                 查看次數詳細來源
-              </v-chip>
+              </v-btn>
             </v-col>
           </v-row>
         </template>

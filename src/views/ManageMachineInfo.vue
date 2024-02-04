@@ -102,7 +102,7 @@ const onSubmitAddQRCode = (data) =>
   }).then((data) => machine.value.qrcodes?.push(data));
 
 const onSubmitPrint = async () => {
-  // APIHelper.get(`${MANAGE_MACHINE_ALL_QRCODE_URL}/${route.params.mId}`).then(
+  // APIHelper.get(`${MANAGE_QRCODEITEM_PRINT_MACHINE_URL}/${route.params.mId}`).then(
   //   (data) => {
   //     const a = document.createElement("a");
   //     a.href = URL.createObjectURL(
