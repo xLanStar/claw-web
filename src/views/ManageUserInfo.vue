@@ -75,6 +75,14 @@ const columns = [
     },
   },
   {
+    title: "卡片機會",
+    dataIndex: "uCardChance",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [useRule.min("卡片機會", 0)],
+    },
+  },
+  {
     title: "新增代幣(輸入幾個，就會新增幾個)",
     dataIndex: "token",
     inputType: InputType.Number,
