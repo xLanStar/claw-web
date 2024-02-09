@@ -75,11 +75,19 @@ const columns = [
     },
   },
   {
-    title: "卡片機會",
+    title: "摸卡機會",
     dataIndex: "uCardChance",
     inputType: InputType.Number,
     inputProps: {
-      rules: [useRule.min("卡片機會", 0)],
+      rules: [useRule.min("摸卡機會", 0)],
+    },
+  },
+  {
+    title: "代夾物數量",
+    dataIndex: "uClawCount",
+    inputType: InputType.Number,
+    inputProps: {
+      rules: [useRule.min("代夾物數量", 0)],
     },
   },
   {

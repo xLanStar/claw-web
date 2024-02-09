@@ -161,7 +161,17 @@ const changeDarkMode = (value) =>
         v-else
         :prepend-icon="mdiCard"
         :title="userState?.uCardChance + ' 次'"
-        subtitle="卡片機會"
+        subtitle="摸卡機會"
+        color="secondary"
+      />
+    </v-col>
+    <v-col>
+      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
+      <v-card
+        v-else
+        :prepend-icon="mdiCard"
+        :title="userState?.uClawCount"
+        subtitle="代夾物數量"
         color="secondary"
       />
     </v-col>
