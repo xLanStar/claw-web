@@ -6,6 +6,7 @@ import { CommonRules, InputType, useRule } from "@/data/form.mjs";
 import {
   mdiAccount,
   mdiArrowLeft,
+  mdiCard,
   mdiCash,
   mdiDiamond,
   mdiPencil,
@@ -274,6 +275,28 @@ onMounted(() => {
           </v-row>
         </template>
       </v-card>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
+      <v-card
+        v-else
+        :prepend-icon="mdiCard"
+        :title="user?.uCardChance + ' 次'"
+        subtitle="摸卡機會"
+        color="secondary"
+      />
+    </v-col>
+    <v-col>
+      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
+      <v-card
+        v-else
+        :prepend-icon="mdiCard"
+        :title="user?.uClawCount"
+        subtitle="代夾物數量"
+        color="secondary"
+      />
     </v-col>
   </v-row>
   <v-row>
