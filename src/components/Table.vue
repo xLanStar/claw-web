@@ -28,8 +28,6 @@ const onSubmitAdd = async (v) =>
         placeholder="搜尋"
         :prepend-inner-icon="mdiMagnify"
         style="max-width: 300px"
-        variant="solo"
-        flat
       />
       <slot name="prepend-title" />
 
@@ -44,7 +42,7 @@ const onSubmitAdd = async (v) =>
         width="600"
       >
         <template v-slot:activator="{ props }">
-          <v-btn flat text="新增" :prepend-icon="mdiPlus" v-bind="props" />
+          <v-btn text="新增" :prepend-icon="mdiPlus" v-bind="props" />
         </template>
         <Form
           mode="add"

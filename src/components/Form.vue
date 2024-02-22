@@ -119,7 +119,6 @@ const handleSubmit = async () => {
           <v-spacer />
           <v-btn
             :prepend-icon="mdiClose"
-            variant="text"
             @click="emits('cancel')"
           >
             取消
@@ -127,7 +126,6 @@ const handleSubmit = async () => {
           <v-btn
             :loading="loading"
             :prepend-icon="mdiCheck"
-            variant="text"
             @click="handleSubmit"
           >
             確認

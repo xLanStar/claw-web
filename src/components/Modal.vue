@@ -21,7 +21,7 @@ const loading = ref(false);
 
 const handleConfirm = async () => {
   loading.value = true;
-  if (props.onConfirm) await props.onConfirm();
+  await props.onConfirm?.();
   loading.value = false;
 };
 </script>

@@ -45,6 +45,8 @@ export const MANAGE_QRCODECONTENT_LIST_URL = `${MANAGE_QRCODECONTENT_URL}/list`;
 export const MANAGE_QRCODEITEM_URL = `${MANAGE_URL}/qrcodeitem`;
 export const MANAGE_QRCODEITEM_LIST_URL = `${MANAGE_QRCODEITEM_URL}/list`;
 export const MANAGE_QRCODEITEM_PRINT_MACHINE_URL = `${MANAGE_MACHINE_URL}/print-machine`;
+export const MANAGE_QRCODEITEM_ENABLE_ALL_QRCODE_URL = `${MANAGE_QRCODEITEM_URL}/enable-all-qrcode`;
+export const MANAGE_QRCODEITEM_DISABLE_ALL_QRCODE_URL = `${MANAGE_QRCODEITEM_URL}/disable-all-qrcode`;
 
 // Manage-Draw
 export const MANAGE_DRAW_URL = `${MANAGE_URL}/draw`;

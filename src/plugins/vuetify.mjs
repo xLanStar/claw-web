@@ -28,6 +28,20 @@ const vuetify = createVuetify({
   defaults: {
     VCard: {
       variant: "tonal",
+      VCardTitle: {
+        VTextField: {
+          variant: "solo",
+        },
+        VBtn: {
+          variant: "tonal",
+        },
+      },
+      VCardActions: {
+        VBtn: {
+          variant: "tonal",
+          size: "small",
+        },
+      },
     },
   },
 });

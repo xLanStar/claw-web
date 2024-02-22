@@ -1,5 +1,6 @@
 <script setup>
 import ManageCard from "@/components/ManageCard.vue";
+import Modal from "@/components/Modal.vue";
 import RoleChip from "@/components/RoleChip.vue";
 import Table from "@/components/Table.vue";
 import { InputType, useRule } from "@/data/form.mjs";
@@ -15,6 +16,8 @@ import APIHelper from "../helper/APIHelpr.mjs";
 import {
   MANAGE_MACHINE_LIST_URL,
   MANAGE_QRCODECONTENT_URL,
+  MANAGE_QRCODEITEM_DISABLE_ALL_QRCODE_URL,
+  MANAGE_QRCODEITEM_ENABLE_ALL_QRCODE_URL,
   MANAGE_QRCODEITEM_URL,
   MANAGE_QRCODE_URL,
 } from "../reference.mjs";
@@ -95,6 +98,24 @@ const submitAddQRCodeItem = (data) =>
     ...data,
     qrId: route.params.qrId,
   }).then((data) => qrcode.value.qrcodeitems?.push(...data));
+
+const submitEnableAllQRCodeItem = () =>
+  APIHelper.post(
+    `${MANAGE_QRCODEITEM_ENABLE_ALL_QRCODE_URL}/${qrcode.value.qrId}`
+  ).then(() => {
+    for (const qrcodeitem of qrcode.value.qrcodeitems) {
+      qrcodeitem.qriEnable = true;
+    }
+  });
+
+const submitDisableAllQRCodeItem = () =>
+  APIHelper.post(
+    `${MANAGE_QRCODEITEM_DISABLE_ALL_QRCODE_URL}/${qrcode.value.qrId}`
+  ).then(() => {
+    for (const qrcodeitem of qrcode.value.qrcodeitems) {
+      qrcodeitem.qriEnable = false;
+    }
+  });
 
 onMounted(() => {
   APIHelper.get(`${MANAGE_QRCODE_URL}/${route.params.qrId}`).then(
@@ -256,6 +277,26 @@ onMounted(() => {
       :columns=""
       :on-add-data=""
       -->
+        <template v-slot:append-title>
+          <Modal
+            title="是否確定要啟用全部QRCode條碼?"
+            text="此操作將使得所有QRCode可以被掃描，並取得內容物。"
+            :on-confirm="submitEnableAllQRCodeItem"
+          >
+            <template v-slot:default="{ props }">
+              <v-btn v-bind="props"> 啟用全部 </v-btn>
+            </template>
+          </Modal>
+          <Modal
+            title="是否確定要禁用全部QRCode條碼?"
+            text="此操作將使得所有QRCode無法被掃描或取得內容物。"
+            :on-confirm="submitDisableAllQRCodeItem"
+          >
+            <template v-slot:default="{ props }">
+              <v-btn v-bind="props"> 禁用全部 </v-btn>
+            </template>
+          </Modal>
+        </template>
         <template v-slot="item">
           <manage-card
             label="QRCodeItem"

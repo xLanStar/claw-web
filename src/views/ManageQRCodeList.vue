@@ -1,5 +1,6 @@
 <script setup>
 import ManageCard from "@/components/ManageCard.vue";
+import RoleChip from "@/components/RoleChip.vue";
 import Table from "@/components/Table.vue";
 import { InputType, useRule } from "@/data/form.mjs";
 import { formatDateTime } from "@/utils/date.utils.mjs";
@@ -61,6 +62,7 @@ onMounted(() => {
         :data-url="MANAGE_QRCODE_URL"
         primary-key="qrId"
         :items="{
+          ...(item?.user ? { 擁有者: item.user } : {}),
           內容物數量: (item) => item.qrcodecontents?.length,
           啟用數量: (item) =>
             item.qrcodeitems.filter(({ qriEnable }) => qriEnable === true)
@@ -71,6 +73,10 @@ onMounted(() => {
           建立時間: (item) => formatDateTime(item.createdAt),
         }"
       >
+        <template v-slot:擁有者="{ value }">
+          <role-chip :role="value?.uRole" />
+          {{ value?.uEmail }}
+        </template>
         <template v-slot:title>
           {{ item.qrName || "(沒有名字)" }}
         </template>

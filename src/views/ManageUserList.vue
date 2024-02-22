@@ -23,8 +23,6 @@ onMounted(
         placeholder="搜尋"
         :prepend-inner-icon="mdiMagnify"
         style="max-width: 300px"
-        variant="solo"
-        flat
       />
     </v-card-title>
     <v-data-iterator :items="users" :items-per-page="12" :search="search">
