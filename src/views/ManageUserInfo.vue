@@ -97,14 +97,6 @@ const columns = [
     },
   },
   {
-    title: "保底值",
-    dataIndex: "uEnergy",
-    inputType: InputType.Number,
-    inputProps: {
-      rules: [useRule.min("保底值", 0), useRule.integer("保底值")],
-    },
-  },
-  {
     title: "收貨人姓名",
     dataIndex: "uName",
     inputType: InputType.Text,
