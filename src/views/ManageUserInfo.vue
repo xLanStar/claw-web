@@ -76,12 +76,9 @@ const columns = [
     },
   },
   {
-    title: "摸卡機會",
-    dataIndex: "uCardChance",
-    inputType: InputType.Number,
-    inputProps: {
-      rules: [useRule.min("摸卡機會", 0)],
-    },
+    title: "備註欄",
+    dataIndex: "uRemark",
+    inputType: InputType.Text,
   },
   {
     title: "代夾物數量",
@@ -283,8 +280,8 @@ onMounted(() => {
       <v-card
         v-else
         :prepend-icon="mdiCard"
-        :title="user?.uCardChance + ' 次'"
-        subtitle="摸卡機會"
+        title="備註欄"
+        :text="user?.uRemark"
         color="secondary"
       />
     </v-col>
@@ -297,20 +294,6 @@ onMounted(() => {
         subtitle="代夾物數量"
         color="secondary"
       />
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <v-progress-linear
-        :model-value="user?.uEnergy"
-        color="secondary"
-        height="25"
-        rounded
-      >
-        <template v-slot:default="{ value }">
-          <strong>保底值：{{ value }}%</strong>
-        </template>
-      </v-progress-linear>
     </v-col>
   </v-row>
   <v-row>

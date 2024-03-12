@@ -160,8 +160,8 @@ const changeDarkMode = (value) =>
       <v-card
         v-else
         :prepend-icon="mdiCard"
-        :title="userState?.uCardChance + ' 次'"
-        subtitle="摸卡機會"
+        title="備註欄"
+        :text="userState?.uRemark"
         color="secondary"
       />
     </v-col>
@@ -174,20 +174,6 @@ const changeDarkMode = (value) =>
         subtitle="代夾物數量"
         color="secondary"
       />
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <v-progress-linear
-        :model-value="userState?.uEnergy"
-        color="secondary"
-        height="25"
-        rounded
-      >
-        <template v-slot:default="{ value }">
-          <strong>保底值：{{ value }}%</strong>
-        </template>
-      </v-progress-linear>
     </v-col>
   </v-row>
   <v-row>
