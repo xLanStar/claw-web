@@ -73,6 +73,10 @@ export const useRule = {
 };
 
 export const CommonRules = {
+  Required: (value) =>
+    value !== "" && value !== null && value !== undefined
+      ? true
+      : `此欄位為必填`,
   Email: [useRule.required("電子信箱"), useRule.email("電子信箱")],
   Password: [
     useRule.required("密碼"),

@@ -81,19 +81,11 @@ const columns = [
     inputType: InputType.Text,
   },
   {
-    title: "代夾物數量",
-    dataIndex: "uClawCount",
-    inputType: InputType.Number,
-    inputProps: {
-      rules: [useRule.min("代夾物數量", 0)],
-    },
-  },
-  {
     title: "新增代幣(輸入幾個，就會新增幾個)",
     dataIndex: "token",
     inputType: InputType.Number,
     inputProps: {
-      rules: [useRule.min("新增代幣", 0), useRule.integer("新增代幣")],
+      rules: [useRule.integer("新增代幣", true)],
     },
   },
   {
@@ -274,16 +266,6 @@ onMounted(() => {
         :prepend-icon="mdiCard"
         title="備註欄"
         :text="user?.uRemark"
-        color="secondary"
-      />
-    </v-col>
-    <v-col>
-      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
-      <v-card
-        v-else
-        :prepend-icon="mdiCard"
-        :title="user?.uClawCount"
-        subtitle="代夾物數量"
         color="secondary"
       />
     </v-col>

@@ -1,4 +1,5 @@
 <script setup>
+import OverlayImage from "@/components/OverlayImage.vue";
 import { useRouter } from "vue-router";
 import { userState } from "../store/auth.mjs";
 
@@ -39,4 +40,5 @@ const flatRoutes = (list, originList = [list]) => {
       <span>HOME</span>
     </v-btn> -->
   </v-bottom-navigation>
+  <OverlayImage />
 </template>

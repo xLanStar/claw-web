@@ -165,16 +165,6 @@ const changeDarkMode = (value) =>
         color="secondary"
       />
     </v-col>
-    <v-col>
-      <v-skeleton-loader v-if="loading" type="card" color="secondary" />
-      <v-card
-        v-else
-        :prepend-icon="mdiCard"
-        :title="userState?.uClawCount"
-        subtitle="代夾物數量"
-        color="secondary"
-      />
-    </v-col>
   </v-row>
   <v-row>
     <v-col>

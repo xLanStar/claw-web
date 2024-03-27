@@ -23,12 +23,14 @@ import {
   MANAGE_DRAWPRIZE_URL,
   MANAGE_DRAW_RESET_URL,
   MANAGE_DRAW_URL,
+  MANAGE_USER_LIST_URL,
   RESOURCE_IMAGE_DRAWPRIZE_URL,
 } from "../reference.mjs";
 
 const router = useRouter();
 const route = useRoute();
 
+const users = ref([]);
 const draw = ref({});
 const panel = ref();
 
@@ -48,7 +50,7 @@ const drawTooltips = computed(() => {
   return result.length ? result : null;
 });
 
-const DrawEditColumns = [
+const DrawEditColumns = computed(() => [
   {
     title: "抽獎名稱",
     dataIndex: "dName",
@@ -59,6 +61,19 @@ const DrawEditColumns = [
     dataIndex: "dEnable",
     inputType: InputType.Boolean,
   },
+  // {
+  //   title: "只允許特定人抽獎（無設定代表任何人均可）",
+  //   dataIndex: "dAllowFor",
+  //   inputType: InputType.Select,
+  //   inputProps: {
+  //     multiple: true,
+  //     items: users.value?.map?.(({ uId, uEmail, uName }) => ({
+  //       value: uId,
+  //       title: `${uEmail} - ${uName || "(無姓名)"}`,
+  //     })),
+  //   },
+  //   transform: (v) => (v?.length === 0 ? null : v),
+  // },
   {
     title: "抽獎洞數（1~3000）",
     dataIndex: "dHoleCount",
@@ -82,7 +97,7 @@ const DrawEditColumns = [
       ],
     },
   },
-];
+]);
 
 const DrawPrizeColumns = computed(() => [
   {
@@ -233,6 +248,7 @@ onMounted(() => {
   APIHelper.get(`${MANAGE_DRAW_URL}/${route.params.dId}`).then(
     (data) => (draw.value = data)
   );
+  APIHelper.get(MANAGE_USER_LIST_URL).then((data) => (users.value = data));
 });
 </script>
 

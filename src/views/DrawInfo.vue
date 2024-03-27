@@ -3,6 +3,7 @@ import Modal from "@/components/Modal.vue";
 import APIHelper from "@/helper/APIHelpr.mjs";
 import { DRAW_URL, RESOURCE_IMAGE_DRAWPRIZE_URL } from "@/reference.mjs";
 import { showAlert } from "@/store/alert.mjs";
+import { overlayImageState } from "@/store/index.mjs";
 import { getHoleStatus } from "@/utils/draw.utils.mjs";
 import { mdiClose } from "@mdi/js";
 import { computed, onMounted, ref } from "vue";
@@ -101,6 +102,11 @@ onMounted(() => {
                     v-for="(prize, idx) of winningPrizes"
                     :key="idx"
                     :src="`${RESOURCE_IMAGE_DRAWPRIZE_URL}/${prize.dpId}`"
+                    @click="
+                      () => {
+                        console.log('prize', prize);
+                      }
+                    "
                   >
                     <template v-slot:placeholder>
                       <v-row
@@ -139,6 +145,12 @@ onMounted(() => {
               <template v-slot:title>
                 <v-img
                   :src="`${RESOURCE_IMAGE_DRAWPRIZE_URL}/${drawprize.dpId}`"
+                  @click="
+                    () => {
+                      overlayImageState = `${RESOURCE_IMAGE_DRAWPRIZE_URL}/${drawprize.dpId}`;
+                      console.log(overlayImageState);
+                    }
+                  "
                 >
                   <template v-slot:placeholder>
                     <v-row

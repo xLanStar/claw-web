@@ -59,7 +59,8 @@ const onSubmit = () =>
 
           <v-text-field
             v-model="name"
-            label="收貨人姓名（選填）"
+            label="收貨人姓名"
+            :rules="[CommonRules.Required]"
             clearable
             placeholder="寄送包裹時需要，未來可再修改"
           />
