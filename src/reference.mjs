@@ -70,6 +70,7 @@ export const MANAGE_CLAW_LIST_URL = `${MANAGE_CLAW_URL}/list`;
 export const USER_URL = `/user`;
 export const USER_INFO_URL = `${USER_URL}/info`;
 export const USER_LOGIN_LOG_URL = `${USER_URL}/loginlog`;
+export const USER_CHANGE_LOG_URL = `${USER_URL}/changelog`;
 
 // QRCode
 export const QRCODE_URL = `/qrcode`;

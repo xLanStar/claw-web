@@ -1,6 +1,10 @@
 <script setup>
 import APIHelper from "@/helper/APIHelpr.mjs";
-import { USER_INFO_URL, USER_LOGIN_LOG_URL } from "@/reference.mjs";
+import {
+  USER_CHANGE_LOG_URL,
+  USER_INFO_URL,
+  USER_LOGIN_LOG_URL,
+} from "@/reference.mjs";
 import {
   mdiAccount,
   mdiBitcoin,
@@ -17,19 +21,26 @@ import {
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTheme } from "vuetify";
+import { parseChangeLogValue, parseChangeReason } from "../data/changeLog.mjs";
 import { RoleColor, RoleName } from "../data/role.mjs";
 import { userState } from "../store/auth.mjs";
 import { logout } from "../utils/auth.utils.mjs";
 
 const theme = useTheme();
 
-const headers = [
+const loginLogHeaders = [
   { title: "時間", value: "createdAt", sortable: true },
   { title: "IP", value: "ip" },
+];
+const changeLogHeaders = [
+  { title: "時間", value: "createdAt", sortable: true },
+  { title: "原因", value: "clReason" },
+  { title: "內容", value: "clValue" },
 ];
 const router = useRouter();
 const loading = ref(false);
 const loginlogs = ref();
+const changelogs = ref();
 const panel = ref();
 
 // refresh
@@ -48,6 +59,10 @@ const onClickLogout = () => {
 const fetchLoginLog = () =>
   !loginlogs.value &&
   APIHelper.get(USER_LOGIN_LOG_URL).then((data) => (loginlogs.value = data));
+
+const fetchChangeLog = () =>
+  !changelogs.value &&
+  APIHelper.get(USER_CHANGE_LOG_URL).then((data) => (changelogs.value = data));
 
 const changeDarkMode = (value) =>
   localStorage.setItem(
@@ -175,9 +190,33 @@ const changeDarkMode = (value) =>
         >
           <v-expansion-panel-title>登入紀錄</v-expansion-panel-title>
           <v-expansion-panel-text>
-            <v-data-table :headers="headers" :items="loginlogs">
+            <v-data-table :headers="loginLogHeaders" :items="loginlogs">
               <template v-slot:item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
+              </template>
+            </v-data-table>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+        <v-expansion-panel
+          value="changelog"
+          @group:selected="$event.value && fetchChangeLog()"
+        >
+          <v-expansion-panel-title>變動紀錄</v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-data-table :headers="changeLogHeaders" :items="changelogs">
+              <template v-slot:item.createdAt="{ value }" class="test-class">
+                {{ new Date(value).toLocaleString() }}
+              </template>
+              <template v-slot:item.clReason="{ value }">
+                {{ parseChangeReason(value) }}
+              </template>
+              <template
+                v-slot:item.clValue="{ item, value }"
+                class="test-class"
+              >
+                <div style="white-space: pre-wrap">
+                  {{ parseChangeLogValue(item.clReason, value) }}
+                </div>
               </template>
             </v-data-table>
           </v-expansion-panel-text>
