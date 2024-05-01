@@ -24,6 +24,7 @@ export const MANAGE_URL = `/manage`;
 export const MANAGE_USER_URL = `${MANAGE_URL}/user`;
 export const MANAGE_USER_LIST_URL = `${MANAGE_USER_URL}/list`;
 export const MANAGE_USER_LOGIN_LOG_URL = `${MANAGE_USER_URL}/loginlog`;
+export const MANAGE_USER_CHANGE_LOG_URL = `${MANAGE_USER_URL}/changelog`;
 
 // Manage-Site
 export const MANAGE_SITE_URL = `${MANAGE_URL}/site`;

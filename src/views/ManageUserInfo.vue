@@ -16,9 +16,15 @@ import {
 } from "@mdi/js";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { parseChangeLogValue, parseChangeReason } from "../data/changeLog.mjs";
 import { RoleName, Roles } from "../data/role.mjs";
 import APIHelper from "../helper/APIHelpr.mjs";
-import { MANAGE_USER_LOGIN_LOG_URL, MANAGE_USER_URL } from "../reference.mjs";
+import {
+  MANAGE_USER_LOGIN_LOG_URL,
+  MANAGE_USER_CHANGE_LOG_URL,
+  MANAGE_USER_URL,
+  USER_CHANGE_LOG_URL,
+} from "../reference.mjs";
 
 const headers = [
   { title: "時間", value: "createdAt", sortable: true },
@@ -113,6 +119,7 @@ const panel = ref();
 const loginlogs = ref([]);
 const editDialog = ref();
 const deleteDialog = ref();
+const changelogs = ref([]);
 
 const submitEdit = async (data) => {
   if (!data) {
@@ -137,6 +144,9 @@ const fetchLoginLog = () =>
   APIHelper.get(`${MANAGE_USER_LOGIN_LOG_URL}/${route.params.uId}`).then(
     (data) => (loginlogs.value = data)
   );
+
+const fetchChangeLog = () =>
+  APIHelper.get(`${MANAGE_USER_CHANGE_LOG_URL}/${route.params.uId}`).then((data) => (changelogs.value = data));
 
 onMounted(() => {
   APIHelper.get(`${MANAGE_USER_URL}/${route.params.uId}`).then(
@@ -282,6 +292,30 @@ onMounted(() => {
             <v-data-table :headers="headers" :items="loginlogs">
               <template v-slot:item.createdAt="{ value }">
                 {{ new Date(value).toLocaleString() }}
+              </template>
+            </v-data-table>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+        <v-expansion-panel
+          value="changelog"
+          @group:selected="$event.value && fetchChangeLog()"
+        >
+          <v-expansion-panel-title>變動紀錄</v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-data-table :headers="changeLogHeaders" :items="changelogs">
+              <template v-slot:item.createdAt="{ value }" class="test-class">
+                {{ new Date(value).toLocaleString() }}
+              </template>
+              <template v-slot:item.clReason="{ value }">
+                {{ parseChangeReason(value) }}
+              </template>
+              <template
+                v-slot:item.clValue="{ item, value }"
+                class="test-class"
+              >
+                <div style="white-space: pre-wrap">
+                  {{ parseChangeLogValue(item.clReason, value) }}
+                </div>
               </template>
             </v-data-table>
           </v-expansion-panel-text>
